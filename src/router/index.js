@@ -1,29 +1,70 @@
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Router from 'vue-router'
+import TnvVote from '@/components/TnvVote'
+import TnvInfo from '@/components/TnvInfo'
+import TnvHelp from '@/components/TnvHelp'
+import Login from '@/components/Login'
+import Revolt from '@/components/Revolt'
+import Contact from '@/components/Contact'
+import PPCancel from '@/components/PPCancel'
+import PPThankYou from '@/components/PPThankYou'
+import Home from '@/components/Home'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  }
-]
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/home',
+      name: 'home',
+      component: Home
+    },
+    {
+      path: '/vote',
+      name: 'vote',
+      component: TnvVote
+    },
+    {
+      path: '/info',
+      name: 'info',
+      component: TnvInfo
+    },
+    {
+      path: '/contact',
+      name: 'contact',
+      component: Contact
+    },
+    {
+      path: '/revolt',
+      name: 'revolt',
+      component: Revolt
+    },
+    {
+      path: '/help',
+      name: 'help',
+      component: TnvHelp
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login,
+      props: {other: {}, crypt: {}}
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
-  routes
+    },
+    {
+      path: '/cancel',
+      name: 'cancel',
+      component: PPCancel
+    },
+    {
+      path: '/thankyou',
+      name: 'thankyou',
+      component: PPThankYou
+    }
+  ]
 })
-
-export default router
