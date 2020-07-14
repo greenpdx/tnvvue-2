@@ -8,7 +8,7 @@
         <router-link :to="{ name: 'info', params: {} }" replace>About</router-link>
         <router-link :to="{ name: 'contact', params: {} }" replace>Contact</router-link>
         <router-link :to="{ name: 'revolt', params: {} }" replace>Revolt</router-link>
-        <router-link :to="{ name: 'login', params: {share: share }}" :crypt="share" replace>Login</router-link>
+        <!--router-link :to="{ name: 'login', params: {share: share }}" :crypt="share" replace>Login</router-link -->
       </div>
       <section style="margin-bottom: 2em;">
         <router-view></router-view>
@@ -80,7 +80,7 @@ export default {
   },
   data () {
     return {
-      share: null
+      share: ""
     }
   },
   beforeCreate () {

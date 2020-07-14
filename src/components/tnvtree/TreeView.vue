@@ -10,7 +10,7 @@
       <span>{{ difVal }}</span>
     </div>
     <div class="tnvtree">
-      <div v-for="node in nodes" class="tv-node">
+      <div v-for="(node, idx) in nodes" class="tv-node" :key="idx">
         <tree-view-node
           :node="node"
           v-on:chgParent="top.chgParent">
@@ -26,14 +26,14 @@
 import { mapGetters } from 'vuex'
 
 // import Node from '@/lib/Node'
-import SliderNode from './SliderNode'
+// import SliderNode from './SliderNode'
 import TreeViewNode from './TreeViewNode'
 
 export default {
   name: 'TreeView',
   components: {
     TreeViewNode,
-    SliderNode
+  //  SliderNode
   },
 
   props: {
