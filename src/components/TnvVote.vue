@@ -111,7 +111,8 @@ export default {
         'y': 10,
         'z': 0
       },
-      beacat: ['discretionary'],
+      //beacat: ['discretionary'],
+      beacat: ['d'],
       year: 2016,
       selectedYear: 2016,
       data: {},
@@ -279,8 +280,8 @@ export default {
       this.showHelp = !this.showHelp
     },
     filterData (itm, idx) {
-      let set = new Set(this.beacat)
-      if (!set.has(itm.beacat.toLowerCase())) {
+      let set = new Set(this.beacat[0])
+      if (!set.has(itm.beacat[0].toLowerCase())) {
         return false
       }
       if (itm.onoffbudget !== 'On-budget') {

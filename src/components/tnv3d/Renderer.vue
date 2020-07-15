@@ -8,6 +8,7 @@
 // import Vue from 'vue'
 // /* global requestAnimationFrame */
 /* eslint-disable no-duplicate-imports */
+import dbgPrt from '@/lib/debug.js'
 import { WebGLRenderer } from 'three'
 import * as THREE from 'three'
 import { mapGetters, mapActions } from 'vuex'
@@ -16,7 +17,9 @@ import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'Renderer',
   //components: {'worm-hole': WormHole},
-
+  mixin: [
+    dbgPrt
+  ],
   props: {
     size: {
       // { w, h }

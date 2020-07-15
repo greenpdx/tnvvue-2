@@ -2,10 +2,11 @@
   <div id="grid"
     v-on:addChild="addChild"
     v-on:addMaterial="addMat">
+      <!-- ":key=node.value" -->
       <hex
         v-for="(node, index) in nodes"
         v-bind:node="node"
-        v-bind:key="node.value"
+        v-bind:key="index"    
         v-bind:index="index"
         v-bind:scale="scale"
         v-bind:mats="mats"
