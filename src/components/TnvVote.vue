@@ -11,7 +11,7 @@
               <span>{{ helpLabel }}</span>
             </div>
             <div v-if="showHelp" id="popHelp" @click="popHelp">
-              <div v-for="line in helpLines">
+              <div v-for="(line, idx ) in helpLines" :key="idx">
                 <span>
                   {{ line }}
                 </span><br/>
@@ -50,7 +50,7 @@
         </fieldset>
         <div class="chklist">
           <select @change="onSelect($event)" class="chkinput" v-model="year">
-            <option class="chkinput" v-for="n in range(1976,2017)">{{ n }}</option>
+            <option class="chkinput" v-for="(n, idx) in range(1976,2017)" :key="idx">{{ n }}</option>
           </select>
         </div>
         <button @click="onClick">Test</button>
@@ -171,17 +171,17 @@ export default {
       webglEnabled: 'webglEnabled'
     }),
 
-    showInfo: function () {
+    showInfo () {
       if (this.hoverNode !== null) {
         let node = this.hoverNode
-        this.info.name = node.name
-        this.info.value = node.value
-        this.info.percent = Math.round(node.lockVal * 1000000) / 10000
-        this.info.parent = node.parent.name
-        return true
+        //this.info.name = node.name
+        //this.info.value = node.value
+        //this.info.percent = Math.round(node.lockVal * 1000000) / 10000
+        //this.info.parent = node.parent.name
+        return node
       } else {
-        this.objInfo = ''
-        return false
+        //this.objInfo = ''
+        return null
       }
     }
   },

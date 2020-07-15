@@ -20,7 +20,7 @@
       <tr>
         <td class="tdtitle">twitter </td>
         <td style="vertical-align: middle;">
-          <img src="../assets/images/Twitter_Logo_Blue.png" width="40px" height="40px" style="border: -5px;"></img>
+          <img src="../assets/images/Twitter_Logo_Blue.png" width="40px" height="40px" style="border: -5px;" />
           <span style="text-align: center;">@taxnvote</span>
         </td>
       </tr>

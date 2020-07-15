@@ -6,16 +6,16 @@
 
 <script>
 // import Vue from 'vue'
-/* global requestAnimationFrame */
+// /* global requestAnimationFrame */
 /* eslint-disable no-duplicate-imports */
 import { WebGLRenderer } from 'three'
 import * as THREE from 'three'
 import { mapGetters, mapActions } from 'vuex'
-import WormHole from './WormHole'
+//import WormHole from './WormHole'
 
 export default {
   name: 'Renderer',
-  components: {'worm-hole': WormHole},
+  //components: {'worm-hole': WormHole},
 
   props: {
     size: {
@@ -134,6 +134,7 @@ export default {
         let pos = this.campos
         this.cam.position.set(pos.x, pos.y, pos.z)
       } else {
+        console.log('activeNode')
       }
 //      this.orbit.curObj.reset()
       this.animate()

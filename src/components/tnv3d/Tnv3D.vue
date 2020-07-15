@@ -23,11 +23,11 @@ import Renderer from './Renderer'
 import Scene from './Scene'
 import Camera from './Camera'
 import Light from './Light'
-import Mesh from './Mesh'
-import Geometry from './Geometry'
-import Material from './Material'
+//import Mesh from './Mesh'
+//import Geometry from './Geometry'
+//import Material from './Material'
 import OrbitControls from './OrbitControls'
-import Group from './Group'
+//import Group from './Group'
 import Grid from './Grid'
 import WormHole from './WormHole'
 
@@ -39,11 +39,11 @@ export default {
     'v3d-scene': Scene,
     'v3d-camera': Camera,
     'v3d-light': Light,
-    'v3d-mesh': Mesh,
-    'v3d-geometry': Geometry,
-    'v3d-material': Material,
+    //'v3d-mesh': Mesh,
+    //'v3d-geometry': Geometry,
+    //'v3d-material': Material,
     'v3d-orbit-controls': OrbitControls,
-    'v3d-group': Group,
+    //'v3d-group': Group,
     'v3d-grid': Grid,
     'worm-hole': WormHole
   },

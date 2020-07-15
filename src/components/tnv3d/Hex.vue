@@ -9,10 +9,10 @@ import { mapGetters } from 'vuex'
 // import Object3D from './Object3D'
 import Node from '@/lib/Node'
 
-import Mesh from './Mesh'
-import Group from './Group'
-import Geometry from './Geometry'
-import Material from './Material'
+//import Mesh from './Mesh'
+//import Group from './Group'
+//import Geometry from './Geometry'
+//import Material from './Material'
 
 /* good reference
 http://www.redblobgames.com/grids/hexagons/
@@ -33,10 +33,10 @@ export default {
   name: 'Hex',
 //   mixins: [Object3D],
   components: {
-    'v3d-mesh': Mesh,
-    'v3d-geometry': Geometry,
-    'v3d-material': Material,
-    'v3d-group': Group
+    //'v3d-mesh': Mesh,
+    //'v3d-geometry': Geometry,
+    //'v3d-material': Material,
+    //'v3d-group': Group
   },
 
   props: {
@@ -47,7 +47,7 @@ export default {
       type: Node,
       required: true
     },
-    index: 0,
+    index: Number,
     size: {
       default: 10
     },

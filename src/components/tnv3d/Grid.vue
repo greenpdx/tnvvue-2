@@ -23,19 +23,19 @@ import * as THREE from 'three'
 // import Object3D from './Object3D'
 
 import Hex from './Hex'
-import Group from './Group'
-import Mesh from './Mesh'
-import Geometry from './Geometry'
-import Material from './Material'
+//import Group from './Group'
+//import Mesh from './Mesh'
+//import Geometry from './Geometry'
+//import Material from './Material'
 
 export default {
   name: 'Grid',
   components: {
-    'mesh': Mesh,
-    'geometry': Geometry,
-    'material': Material,
+    //'mesh': Mesh,
+    //'geometry': Geometry,
+    //'material': Material,
     'hex': Hex,
-    'v3d-group': Group
+    //'v3d-group': Group
   },
 
 //   mixins: [Object3D],

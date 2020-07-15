@@ -6,14 +6,14 @@
         <polygon :points="hex1.top" :fill="green" />
         <polygon :points="hex1.bot" :fill="green" />
         <text x="300" y="60" >{{ hex1.name }}</text>
-        <polygon v-for="edge in hex1.edges" :points="edge" fill="black" stroke="black"/>
+        <polygon v-for="(edge, idx) in hex1.edges" :points="edge" fill="black" stroke="black" :key="idx"/>
       </g>
       <g v-if="hex0.show" @click="click0">
         <polygon :points="hex0.hex" fill-opacity="0" stroke="black"/>
         <polygon :points="hex0.top" :fill="red" />
         <polygon :points="hex0.bot" :fill="red" />
         <text x="300" y="20" >{{ hex0.name }}</text>
-        <polygon v-for="edge in hex0.edges" :points="edge" fill="black" stroke="black"/>
+        <polygon v-for="(edge, idx) in hex0.edges" :points="edge" fill="black" stroke="black" :key="idx"/>
       </g>
     </svg>
   </div>
@@ -55,7 +55,7 @@ export default {
         return {x: 800, y: 800}
       }
     },
-    clearColor: 0,
+    clearColor: null,
     color: null,
     tnv3d: null
   },

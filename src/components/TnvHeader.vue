@@ -1,7 +1,7 @@
 <template>
   <header class="tnvheader">
     <div id="tophead">
-      <img class="logo" src="../assets/tnv-logo.svg"></img>
+      <img class="logo" src="../assets/tnv-logo.svg" />
       <div id="name">
         <router-link to="/home">{{ name }}</router-link>
       </div>
@@ -28,11 +28,11 @@
         </router-link>
         <!-- span style="font-size: .4em;">{{ moreText }}</span -->
       </div>
-      <!-- div v-if="more" class="line3" @click="expand">
+      <!-- div v-if="more" class="line3" @click="expand" -->
         <!-- span id="votepage">Vote</span></router-link -->
         <!-- div class="explain" v-html="explain0"></div>
         <div class="explain" v-html="explain1"></div -->
-      </div>
+      <!-- /div -->
     </div>
     <nav>
 

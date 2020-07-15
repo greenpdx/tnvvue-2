@@ -90,15 +90,16 @@ export default {
           pos.y = 0
           pos.z = 0
           break
-        case 'string':
-          let str = props.replace(/'/g, '"')
-          try {
-            let obj = JSON.parse(str)
-            Object.assign(pos, obj)
-          } catch (err) {
-            console.log(props, err)
+        case 'string': {
+            let str = props.replace(/'/g, '"')
+            try {
+              let obj = JSON.parse(str)
+              Object.assign(pos, obj)
+            } catch (err) {
+              console.log(props, err)
+            }
+            break
           }
-          break
         case 'object':
           pos.x = props.x || pos.x
           pos.y = props.y || pos.y
