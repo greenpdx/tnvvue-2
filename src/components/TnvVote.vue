@@ -20,7 +20,7 @@
           </div>
         </div>
         <div class="render-area">
-          <span class="wait">Please wait<br>Requires 3D</span><br>
+          <span class="wait">{{ waitmsg }}</span><br>
           <span style="font-size: 2em;"> {{ showWhat }} </span>
         <tnv-3d v-if="top"
           :top="top"
@@ -90,6 +90,7 @@ export default {
   data () {
     return {
       objInfo: '',
+      waitmsg: "Under construction",
       threeSize: {
         x: '800',
         y: '800'
@@ -114,7 +115,7 @@ export default {
       //beacat: ['discretionary'],
       beacat: ['d'],
       year: 2016,
-      selectedYear: 2016,
+      selectedYear: 'y2019',
       data: {},
       nodes: [],
       size: {
@@ -202,23 +203,53 @@ export default {
       itm.lockVal = itm.value / itm.parent.default
 //      console.log(itm.value, itm.parent.default)
     },
-    groupData (nodes, filterCB) {
-      let map = {}
+
+    nodeSort(n1, n2) {
+      if (n1.agencycode == n2.agencycode) {
+        if (n1.bureaucode == n2.bureaucode) {
+          if (n1.accountcode == n2.accountcode) {
+            return n1.value - n2.value
+          } else {
+            return n1.accountcode - n2.accountcode            
+          }
+        } else {
+          return n1.bureaucode - n2.bureaucode 
+        }
+      } else {
+        return n1.agencycode - n2.agencycode
+      } 
+    },
+
+    groupData (budgt, filterCB, year) {
+      /*let agcy = {}
+      let bgdt = {}
+      let acct = {}
       let total = 0
 //      Node.clrNodes()
-      let top = new Node('Total', 0, null)
-      let tree = top.children
-      nodes.forEach((itm, idx) => {
+      let tree = []
+      let top = 0
+      tree.push(new Node('Total', 0, -1))
+
+      budgt.forEach((itm, idx) => {
         if (!filterCB(itm)) {
           return
         }
-        let val = itm[this.selectedYear.toString()]
+        let idx = tree.length
+        if (itm.agencycode in agcy) {
+
+        } else {
+          let an = new Node(itm.agencyname, idx, ) 
+          agcy['itm.agencycode'] = 
+        }
+        let node = new Node(itm.agencyname, idx, parent)
+        tree.push(node)
+        let val = itm[year]
         total += val
-        let parent = top
+        //let parent = 
+        /*
         if (!map[itm.agencycode]) {
-          let tmp = map[itm.agencycode] =
-          new Node(itm.agencyname, idx, parent)
-          tree.push(tmp)
+          map[itm.agencycode] = new Node(itm.agencyname, idx, parent)
+          tree.push(map[itm.agencycode])
         }
         parent = map[itm.agencycode]
         map[itm.agencycode].sum += val
@@ -231,8 +262,8 @@ export default {
         let tmp = new Node(itm.acctname, idx, parent)
         tmp.sum = val
         map[itm.agencycode].children[itm.bureaucode].children.push(tmp)
-      })
-
+      })*/
+/*
       top.total = total
       top.value = total
       top.default = total
@@ -253,19 +284,20 @@ export default {
       this.rawTree.total = total
       this.rawTree.tree = tree
       this.rawTree.top = top
-      return {total: total, tree: top}
+      return {total: total, tree: top}*/
     },
 
-    haveData (data) {
+    haveData (data, self) {
       this.data = data
-      if (this.test) {
+      return
+      /*if (this.test) {
         this.top = this.data
         this.setExpand(this.top)
       } else {
-        let rslt = this.groupData(data, this.filterData)
+        let rslt = this.groupData(data, this.filterData, 'y2019')
         console.log(rslt.tree.children.length)
         this.top = rslt.tree
-      }
+      }*/
     },
     range (min, max) {
       let ary = []
@@ -280,20 +312,23 @@ export default {
       this.showHelp = !this.showHelp
     },
     filterData (itm, idx) {
-      let set = new Set(this.beacat[0])
-      if (!set.has(itm.beacat[0].toLowerCase())) {
+      let beacat = itm.beacat[0].toLowerCase()
+      let set = new Set(this.beacat)
+
+      if (!set.has(beacat)) {
         return false
       }
       if (itm.onoffbudget !== 'On-budget') {
         return false
       }
-      if (itm[this.selectedYear.toString()] === 0) {
+      if (itm[this.selectedYear] === 0) {
         return false
       }
-      if (itm[this.selectedYear.toString()] < 0) {
+      if (itm[this.selectedYear] < 0) {
         return false
       }
-      this.total += itm[this.selectedYear.toString()]
+      itm['value'] = itm[this.selectedYear]
+      this.total += itm[this.selectedYear]
       return true
     },
 
@@ -348,8 +383,9 @@ export default {
         .then(response => {
           console.log(response)
           let rslt = response.data
-          let data = rslt
-          self.haveData(data)
+          
+          self.data = rslt.sort(self.nodeSort)
+          self.haveData(self.data, self)
 //          self.setNodes(data)
         })
         .catch(error => {

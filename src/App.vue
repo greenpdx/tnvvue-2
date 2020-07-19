@@ -3,11 +3,11 @@
     <tnv-header></tnv-header>
     <div id="main">
       <div id="navtab">
-        <!-- router-link :to="{ name: '', params: {} }"></router-link -->
-        <router-link :to="{ name: 'vote', params: {} }" replace>Vote</router-link>
-        <router-link :to="{ name: 'info', params: {} }" replace>About</router-link>
-        <router-link :to="{ name: 'contact', params: {} }" replace>Contact</router-link>
-        <router-link :to="{ name: 'revolt', params: {} }" replace>Revolt</router-link>
+        <router-link class="navbutton" :to="{ name: 'home', params: {} }">Home</router-link>
+        <router-link class="navbutton" :to="{ name: 'vote', params: {} }" replace>Vote</router-link>
+        <router-link class="navbutton" :to="{ name: 'info', params: {} }" replace>About</router-link>
+        <router-link class="navbutton" :to="{ name: 'contact', params: {} }" replace>Contact</router-link>
+        <router-link class="navbutton" :to="{ name: 'revolt', params: {} }" replace>Revolt</router-link>
         <!--router-link :to="{ name: 'login', params: {share: share }}" :crypt="share" replace>Login</router-link -->
       </div>
       <section style="margin-bottom: 2em;">
@@ -134,5 +134,8 @@ export default {
   display: inline-block;
   width: 100%;
   height: 100%;
+}
+.navbutton {
+  padding: 11px;
 }
 </style>
