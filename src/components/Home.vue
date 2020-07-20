@@ -15,7 +15,7 @@
         so every vote can be verified. Blockchain security is used to verify every vote.</p>   
 
 
-       <p> What is the truth? oday </p>
+       <p> What is the truth?</p>
       <p>Everybody, it does not matter red or blue, agrees that they would like have more control of
        how they want their taxes spent. The president submits a budget to congress, Congress should
         accept The People's Budget. The average everybody's vote and that makes the budget. 
