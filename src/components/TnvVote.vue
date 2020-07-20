@@ -1,5 +1,11 @@
 <template>
   <div class="tnvvote">
+    <!-- TEST -->
+    <!-- div>
+      <div v-for="(acct, idx) in tst" :key="idx">
+        {{ acct.agencyname }} {{  acct.bureauname }} {{ acct.accountname }}
+      </div>
+    </div -->
     <div class="split">
       <div v-if="webglEnabled" id="three3d" class="three3d" ref="three3d">
         <div>
@@ -75,8 +81,6 @@ import Node from '@/lib/Node'
 import Tnv3D from './tnv3d/Tnv3D'
 import TreeView from './tnvtree/TreeView'
 
-import TestData from '@/assets/TestData'
-
 export default {
   name: 'TnvVote',
   mixins: [
@@ -129,7 +133,7 @@ export default {
       },
       freeze: {},
       top: null,
-      test: false,
+      test: true,
       rawTree: {},
       info: {
         name: '',
@@ -147,20 +151,18 @@ export default {
   },
 
   created () {
-    if (this.test) {
-      this.td = new TestData()
-      this.haveData(this.td.genData(6, 6, 6).top)
-    } else {
-      this.getData()
-    }
 
 //    let rand = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER - 1))
   },
 
   mounted () {
+    let wasm = this.$wasm
+    let bdgt = wasm.init_app(this.tst)
+    console.log(this.tst, bdgt)
   },
 
   watch: {
+
 //    top is the start of the tree
 //    expandNode: function (node) {
 //    }
@@ -185,6 +187,10 @@ export default {
         //this.objInfo = ''
         return null
       }
+    },
+
+    tst() {
+      return this.$root.rawdata
     }
   },
 

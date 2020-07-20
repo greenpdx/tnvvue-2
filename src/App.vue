@@ -22,6 +22,8 @@
 
 <script>
 import axios from 'axios'
+import TestData from '@/assets/TestData'
+
 
 //import nacl from 'tweetnacl'
 //import base64 from 'base64-js'
@@ -83,7 +85,8 @@ export default {
   data () {
     return {
       data: null,
-      share: ""
+      share: "",
+      test: true
     }
   },
   beforeCreate () {
@@ -115,6 +118,7 @@ export default {
     })*/
   },
   methods: {
+
     nodeSort(n1, n2) {
       if (n1.agencycode == n2.agencycode) {
         if (n1.bureaucode == n2.bureaucode) {
@@ -133,26 +137,34 @@ export default {
 
     getData () {
       let self = this
+      let wasm = self.$wasm
+      let data = []
+      if (this.test) {
+        let td = new TestData()
+        let data = td.genData(4,4,4)
+        let rawdata = data.sort(self.nodeSort)
+        self.$root.rawdata = rawdata
+        let rtn = wasm.init_app(rawdata)
+        console.log("DATA", rtn)
+      } else {
 //      axios.get('http://localhost:8181/budget/full/_find?batch_size=5000')
-      axios.get('/mongodb')
+        axios.get('/mongodb')
 //      axios.get('http://10.0.42.104:8181/mongodb')
 //      axios.get(process.dbURL)
 //      axios.get('http://10.0.42.126/full.json')
 
-        .then(response => {
-          //console.log(response)
-          let rslt = response.data
-          let wasm = self.$wasm
-          self.data = rslt.sort(self.nodeSort)
-          let rtn = wasm.init_app(rslt)
-          console.log("DATA", rtn)
-
-  //self.haveData(self.data, self)
-//          self.setNodes(data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
+          .then(response => {
+            //console.log(response)
+            let rslt = response.data
+            let rawdata = rslt.sort(self.nodeSort)
+            self.$root.rawdata = rawdata
+            let rtn = wasm.init_app(rawdata)
+            console.log("DATA", rtn)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+      }
     }
   }
 

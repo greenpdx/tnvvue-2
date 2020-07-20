@@ -1,12 +1,35 @@
 //import Node from '@/lib/Node'
-/*
+
+const tmplt = { "agencycode":-1,"agencyname":"A","bureaucode":-1,"bureauname":"B","accountcode":-1,"accountname":"C","treasuryagencycode":null,"subfunctioncode":-1,"subfunctiontitle":"subfunc","beacat":"D","onoffbudget":"On-budget","y1976":0,"tq":623,"y1977":0,"y1978":0,"y1979":0,"y1980":0,"y1981":0,"y1982":0,"y1983":0,"y1984":0,"y1985":0,"y1986":0,"y1987":0,"y1988":0,"y1989":0,"y1990":0,"y1991":0,"y1992":0,"y1993":0,"y1994":0,"y1995":0,"y1996":0,"y1997":0,"y1998":0,"y1999":0,"y2000":0,"y2001":0,"y2002":0,"y2003":0,"y2004":0,"y2005":0,"y2006":0,"y2007":0,"y2008":0,"y2009":0,"y2010":0,"y2011":0,"y2012":0,"y2013":0,"y2014":0,"y2015":0,"y2016":0,"y2017":0,"y2018":0,"y2019":0,"y2020":0,"y2021":0,"y2022":0,"y2023":0,"y2024":0,"y2025":0}
+
 export default class TestData {
   rawTree = {top: null, tree: null, total: 0}
 
-  genData (asz = 30, bsz = 10, csz = 10) {
-    return this.genvar(asz, bsz, csz)
+  genData (asz = 4, bsz = 4, csz = 4) {
+    return this.genraw(asz, bsz, csz)
   }
+ 
+  genraw(asz, bsz, csz) {
+    let data = []
 
+    for (let a=0;a<asz;a++) {
+      for (let b=0;b<bsz;b++) {
+        for (let c=0;c<asz;c++) {
+          let acct = Object.assign({}, tmplt)
+          acct['agencycode'] = a+1
+          acct['agencyname'] = 'A' + (a+1).toString()
+          acct['bureaucode'] = b+1
+          acct['bureauname'] = 'B' + (b+1).toString()
+          acct['accountcode'] = c+1
+          acct['accountname'] = 'C' + (c+1).toString()
+          acct['y2019'] = a * 20 + b * 10 + c +1
+          data.push(acct)
+        }
+      }
+    }
+    return data
+  }
+/*
   genvar (asz, bsz, csz) {
     let data = []
     let idx = 0
@@ -102,5 +125,5 @@ export default class TestData {
     return {
       top: top
     }
-  }
-}*/
+  }*/
+}
