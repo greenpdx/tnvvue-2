@@ -157,8 +157,8 @@ export default {
 
   mounted () {
     let wasm = this.$wasm
-    let bdgt = wasm.init_app(this.tst)
-    console.log(this.tst, bdgt)
+    //let bdgt = wasm.init_app(this.tst)
+    //console.log(this.tst, bdgt)
   },
 
   watch: {
@@ -391,7 +391,7 @@ export default {
           let rslt = response.data
           
           self.data = rslt.sort(self.nodeSort)
-          self.haveData(self.data, self)
+          //self.haveData(self.data, self)
 //          self.setNodes(data)
         })
         .catch(error => {

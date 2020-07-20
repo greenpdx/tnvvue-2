@@ -3,6 +3,8 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
+window.globalThis = {}
+window.globalThis['globalThis'] = ""
 const WasmPack = import('../pkg/index.js')
 Vue.prototype.$wasm = {}
 Vue.prototype.$budget = {}

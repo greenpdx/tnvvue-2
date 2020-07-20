@@ -1,21 +1,20 @@
 extern crate csv; 
 extern crate serde_json;
-//mod utils;
+mod utils;
 //pub mod netget;
-//pub mod budget;
+pub mod budget;
 //pub mod canvas3d;
 
 use serde::{ Deserialize, Serialize};
-
 use serde_json::{Value};
 use wasm_bindgen::prelude::*;
 use web_sys::{console};
 //use netget::net1;
 use csv::{ReaderBuilder};
 use js_sys::{Array, Uint8Array};
-//use budget::{rtn_budget, JsBudget, load_csv, fetch_csv, get_tree, JsNode, T1};
-//use budget::nodedata::*;
-
+use budget::{rtn_budget, JsBudget, load_csv, fetch_csv, get_tree, JsNode, T1};
+use budget::nodedata::*;
+use std::panic;
 use std::mem::drop;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
@@ -24,34 +23,39 @@ use std::mem::drop;
 #[global_allocator]
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
-/* */
-pub struct Node {
-
-}
-/* */
-
-
 #[wasm_bindgen]
 extern {
     fn alert(s: &str);
 }
 
 #[wasm_bindgen]
-pub fn greet() {
-    alert("Hello, t3!");
+pub fn greet(raw: JsValue) {
+    //alert("Hello, t3!");
+    panic::set_hook(Box::new(console_error_panic_hook::hook));
+    console::log_1(&raw);  // &"Test".into());
 }
 
 #[wasm_bindgen]
 pub struct NodesPtr {
     #[wasm_bindgen(skip)]
     pub nodes: Vec<Node>,
-    //#[wasm_bindgen(skip)]
-    //pub bdgt: Budget,
+    #[wasm_bindgen(skip)]
+    pub bdgt: Budget,
 }
 
 #[wasm_bindgen]
+pub fn raw2accts(accts: JsValue) -> Result<JsValue, JsValue> {
+    console::log_1(&accts);  // &"Test".into());
+    Ok(accts)
+}
+
+#[wasm_bindgen]
+pub fn gen_tree(accts: &JsValue) -> Result<JsValue, JsValue> {
 //pub fn init_app(bdgt: JsValue) -> Result<NodesPtr, JsValue> {
-pub fn init_app(bdgt: JsValue) -> Result<JsValue, JsValue> {
+//pub fn init_app(bdgt: JsValue) -> Result<JsValue, JsValue> {
+    console::log_1(&accts);  // &"Test".into());
+
+    //let rs: JsBudget = bdgt.into_serde().unwrap();
     //let s: JsBudget = bdgt.into_serde().unwrap();
     //let b = JsBudget::to_budget(&s);
     //let t = get_tree(s);
@@ -60,8 +64,17 @@ pub fn init_app(bdgt: JsValue) -> Result<JsValue, JsValue> {
     //    nodes: tre,
     //    bdgt: b
     //})
-    Ok(bdgt)
+    Ok(JsValue::null())
 }
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn it_works() {
+        assert_eq!(2 + 2, 4);
+    }
+}
+
 /*
 #[wasm_bindgen]
 pub fn jsnodes(nodes_ctx: &mut NodesPtr) -> Result<JsValue, JsValue> {

@@ -86,7 +86,7 @@ export default {
     return {
       data: null,
       share: "",
-      test: true
+      test: false
     }
   },
   beforeCreate () {
@@ -138,14 +138,16 @@ export default {
     getData () {
       let self = this
       let wasm = self.$wasm
+      wasm.greet("O TEST")
       let data = []
       if (this.test) {
         let td = new TestData()
-        let data = td.genData(4,4,4)
+        let data = td.genData(2,2,2)
         let rawdata = data.sort(self.nodeSort)
         self.$root.rawdata = rawdata
-        let rtn = wasm.init_app(rawdata)
-        console.log("DATA", rtn)
+        console.log( typeof rawdata)
+        let rtn = wasm.raw2accts(rawdata)
+        console.log("DATA", rtn, rawdata)
       } else {
 //      axios.get('http://localhost:8181/budget/full/_find?batch_size=5000')
         axios.get('/mongodb')
@@ -156,10 +158,12 @@ export default {
           .then(response => {
             //console.log(response)
             let rslt = response.data
-            let rawdata = rslt.sort(self.nodeSort)
-            self.$root.rawdata = rawdata
-            let rtn = wasm.init_app(rawdata)
-            console.log("DATA", rtn)
+            let w = self.$wasm
+            console.log(wasm, w)
+            wasm.greet("I TEST")
+            rslt.sort(self.nodeSort)
+            let rtn = wasm.raw2accts(rslt)
+            self.$root.rawdata = rslt              
           })
           .catch(error => {
             console.log(error)
