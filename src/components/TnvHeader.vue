@@ -9,12 +9,12 @@
         <span>{{ motto }}</span>
       </div>
       <div id="rightdiv">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+        <!-- form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
         <input type="hidden" name="cmd" value="_s-xclick">
         <input type="hidden" name="hosted_button_id" v-model="value">
         <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
         <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-        </form>
+        </form -->
         <!-- router-link to="/help">{{ rightdiv }}</router-link -->
       </div>
     </div>
@@ -47,7 +47,7 @@ export default {
     return {
       value: '6VG6GPBCPH89U',
       name: 'Tax N Vote',
-      motto: 'Taxation with Representation',
+      motto: 'Tell the Government how to spend your taxes',
 /*      explain: 'Tax N Vote allows you to turn your ideas about how the ' +
         'US Government should spend your Tax Dollar.  A Tax Dollar is a vote ' +
         'that can be divided between any agency, bureau and department. Every ' +

@@ -1,12 +1,28 @@
 <template>
   <div id="tnvhome">
     <div class="tnvwhat">
-      <span style="font-size: 1.5em; font-weight: bold;">Vote with your Tax Dollar, Create the People's Budget</span><br> When
-       a person files their taxes, they have a Tax Dollar to divide into the
-       U.S. discretionary budget. At the end of the tax season, all the votes are
-       aggregated to create the People's Budget.<br>
-       Every person is heard, with verifiable blockchain secure documented data, not fake news or alt facts.
+      <span style="font-size: 1.5em; font-weight: bold;">Vote with your Tax Dollar, Create the People's Budget</span><br>
+       <h4>One Person, One Tax Dollar</h4>
+       <p>Right now a red person in  blue state and a blue person in a red states vote do not count. 
+       Gerrymandering law suites are dividing the country. Tax N Vote every body has one vote.</p>
+       <h4>Divide your Tax Dollar to 1/1,000,000,000 of a penny</h4>
+      <p>A Tax Dollar is a proportional representation of the U.S. budget. One penny is one percent of 
+      the budget. Allocate five cents to Department of Veterans Affairs, that means five percent of
+       the US budget goes to the VA.</p>  
+      <h4>The People tell Congress what is important to them in Hard Data. Not Fake News, Not Alt-Facts.</h4>
+      <p>Tax N Vote provides a numeric objective measure of what people want. People do not trust the news.
+        This system creates hard data. Every vote counts. There is a digital and hardcopy protocols
+        so every vote can be verified. Blockchain security is used to verify every vote.</p>   
 
+
+       <p> What is the truth? oday </p>
+      <p>Everybody, it does not matter red or blue, agrees that they would like have more control of
+       how they want their taxes spent. The president submits a budget to congress, Congress should
+        accept The People's Budget. The average everybody's vote and that makes the budget. 
+      </p>
+      <h4></h4>
+
+      
     </div>
     <div>
       <h4 style="margin-bottom: 0in;">Benefits of Tax N Vote:</h4>
@@ -25,6 +41,7 @@
       <li>Does not take a constitutional convention to change the system</li>
       <li>Low overhead cost, the total amount of anonymous data can fit on $400 of disk space</li>
       <li>Individuals can verify their own data using the receipt number</li>
+      <li>Hard data, not fake news or alt facts</li>
       </ul>
     </div>
     <div>
