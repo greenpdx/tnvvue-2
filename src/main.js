@@ -15,7 +15,7 @@ WasmPack
     //let t = m.net2("./test-small.csv")
     //  .then( data => {
     //    Vue.prototype.$wasm.budget = data
-        console.log("MAIN",m)
+        console.log("WASM",m)
 
         new Vue({
           router,

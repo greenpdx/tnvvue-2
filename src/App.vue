@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 //import nacl from 'tweetnacl'
 //import base64 from 'base64-js'
 //import Rpc from '@/components/Rpc'
@@ -80,18 +82,21 @@ export default {
   },
   data () {
     return {
+      data: null,
       share: ""
     }
   },
   beforeCreate () {
   },
   created () {
+    this.getData()
     //let conf = this.rdSession()
     //this.share.key = conf.secretKey
     //this.share.sess = conf.publicKey
     //this.share.nonce = nacl.randomBytes(nacl.box.nonceLength)
-
-    console.log('APP>', this.share.nonce)
+    //let wasm = this.$wasm
+    //let rtn = wasm.init_app([])
+    //console.log('APP>', rtn)
  /*   this.sendRpc('hello', {
       hello: base64.fromByteArray(this.share.nonce)
     }, (rslt, error) => {
@@ -110,7 +115,45 @@ export default {
     })*/
   },
   methods: {
+    nodeSort(n1, n2) {
+      if (n1.agencycode == n2.agencycode) {
+        if (n1.bureaucode == n2.bureaucode) {
+          if (n1.accountcode == n2.accountcode) {
+            return n1.value - n2.value
+          } else {
+            return n1.accountcode - n2.accountcode            
+          }
+        } else {
+          return n1.bureaucode - n2.bureaucode 
+        }
+      } else {
+        return n1.agencycode - n2.agencycode
+      } 
+    },
 
+    getData () {
+      let self = this
+//      axios.get('http://localhost:8181/budget/full/_find?batch_size=5000')
+      axios.get('/mongodb')
+//      axios.get('http://10.0.42.104:8181/mongodb')
+//      axios.get(process.dbURL)
+//      axios.get('http://10.0.42.126/full.json')
+
+        .then(response => {
+          //console.log(response)
+          let rslt = response.data
+          let wasm = self.$wasm
+          self.data = rslt.sort(self.nodeSort)
+          let rtn = wasm.init_app(rslt)
+          console.log("DATA", rtn)
+
+  //self.haveData(self.data, self)
+//          self.setNodes(data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
   }
 
 }
