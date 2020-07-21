@@ -6,7 +6,7 @@
         {{ acct.agencyname }} {{  acct.bureauname }} {{ acct.accountname }}
       </div>
     </div -->
-    <div class="split">
+    <!-- div class="split">
       <div v-if="webglEnabled" id="three3d" class="three3d" ref="three3d">
         <div>
           <span style="font-weight: bold;">{{ showWhat }}</span>
@@ -34,7 +34,7 @@
           :camPos="camPos"
           :freeze="freeze"
           id="tnv3d">
-        </tnv-3d>
+        </tnv-3d >
         <div v-show="showInfo" class="infopop" ref="infopop">
           <span>{{ info.name }}</span><br>
           <span>{{ info.value / 1000 }} Million</span><br>
@@ -61,14 +61,14 @@
         </div>
         <button @click="onClick">Test</button>
       </div>
-    </div>
+    </div -->
     <div class="tnv-tree">
       <tree-view v-if="top" :top="top">
       </tree-view>
     </div>
   </div>
 
-</div>
+<!-- /div -->
 </template>
 
 <script>
@@ -78,7 +78,7 @@ import Rpc from './Rpc'
 import axios from 'axios'
 import Node from '@/lib/Node'
 
-import Tnv3D from './tnv3d/Tnv3D'
+//import Tnv3D from './tnv3d/Tnv3D'
 import TreeView from './tnvtree/TreeView'
 
 export default {
@@ -87,7 +87,7 @@ export default {
     Rpc
   ],
   components: {
-    'tnv3d': Tnv3D,
+    //'tnv3d': Tnv3D,
     'tree-view': TreeView
   },
 
@@ -132,7 +132,7 @@ export default {
         z: -100
       },
       freeze: {},
-      top: null,
+      //top: null,
       test: true,
       rawTree: {},
       info: {
@@ -157,8 +157,9 @@ export default {
 
   mounted () {
     let wasm = this.$wasm
+    let srv = this.tst
     //let bdgt = wasm.init_app(this.tst)
-    //console.log(this.tst, bdgt)
+    console.log(this.tst)
   },
 
   watch: {
@@ -187,10 +188,13 @@ export default {
         //this.objInfo = ''
         return null
       }
+      //vecnodes () {
+      //  return this.$
+      //}
     },
 
-    tst() {
-      return this.$root.rawdata
+    top() {
+      return this.$root.budget
     }
   },
 

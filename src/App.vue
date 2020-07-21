@@ -167,7 +167,9 @@ export default {
             let rtn = wasm.raw2accts(rslt)
             console.log(rtn)
             let tre = wasm.gen_tree(rtn)
-            self.$root.rawdata = rtn 
+            self.$root.rawdata = rtn
+            self.$root.budget = tre
+            //self.$root
             console.log(tre)             
           })
           .catch(error => {

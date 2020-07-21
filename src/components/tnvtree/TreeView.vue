@@ -56,11 +56,11 @@ export default {
 
   created () {
     console.log(top)
-    this.nodes = this.top.children
-    this.total = this.top.total
-    this.top.tree = this
-    this.top.lockVal = 1
-    console.log('tree', this.nodes.length)
+    //this.nodes = this.top.children
+    //this.total = this.top.total
+    //this.top.tree = this
+    //this.top.lockVal = 1
+    //console.log('tree', this.nodes.length)
   },
 
   methods: {

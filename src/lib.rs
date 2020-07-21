@@ -46,7 +46,7 @@ pub struct NodesPtr {
 #[wasm_bindgen]
 pub fn raw2accts(raw: JsValue) -> Result<JsValue, JsValue> {
     //let 
-    console::log_1(&raw);  // &"Test".into());
+    //console::log_1(&raw);  // &"Test".into());
     let accts = budget::rdcsv::raw2acct(raw);
     let j = JsValue::from_serde(&accts).unwrap();
     Ok(j)
@@ -65,14 +65,14 @@ pub fn gen_tree(jaccts: &JsValue, jflt: JsValue) -> Result<JsValue, JsValue> {
             return Err(JsValue::from_str("Parse budget json"))
         },
     };
-    let al = accts.len();
     console::log_1(&JsValue::from_f64(accts.len() as f64));  // &"Test".into());
 
     //: Vec<Acct> = jaccts.into_serde().unwrap();
     let fltr = budget::nodedata::Filter::new(); //jflt.into_serde().unwrap();
     let rtn = rtn_tree(accts, &fltr).unwrap();
-
-    Ok(JsValue::from_f64(rtn.len() as f64))
+    let j = JsValue::from_serde(&rtn).unwrap();
+ 
+    Ok(j)
 }
 
 #[cfg(test)]
