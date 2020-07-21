@@ -250,9 +250,8 @@ fn mkleaf(idx: i32, act: &Acct, year: usize) -> Node {
     leaf
 }
 
-pub fn rtn_tree(bdgt: &Budget,filter: &Filter) -> Result<Vec<Node>, Box<dyn Error>> {
+pub fn rtn_tree(accts: Vec<Acct>,filter: &Filter) -> Result<Vec<Node>, Box<dyn Error>> {
 //    pub fn rtn_tree(bdgt: &Budget,filter: &Filter) -> Result<Vec<Node>, Box<dyn Error>> {
-    let accts = &bdgt.accts;
     //let anames = &bdgt.anames;
     //let bnames = &bdgt.bnames;
 

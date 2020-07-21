@@ -7,7 +7,7 @@ pub mod rdcsv;
 pub mod nodedata;
 
 pub use rdcsv::{rtn_budget};
-use nodedata::*; //{Acct, Budget, BEACat, Node, rtn_tree, Year, Filter, print_tree, add_tree, chg_node, BKey, LKV };
+pub use nodedata::*; //{Acct, Budget, BEACat, Node, rtn_tree, Year, Filter, print_tree, add_tree, chg_node, BKey, LKV };
 
 use wasm_bindgen::{JsCast, JsValue};
 use wasm_bindgen_futures::future_to_promise;
@@ -154,21 +154,12 @@ pub struct T1 {
 }
 
 
-pub fn get_tree(jsbdgt: JsBudget) -> Vec<Node> {
+pub fn get_tree(accts: Vec<Acct>) -> Vec<Node> {
     let mut nodes: Vec<JsNode> = Vec::new();
-    //let an = jsbdgt.anames.iter().map(|a| { LKV::new(a.idx as i32, a.name.clone()) }).collect();
-    //let bn = jsbdgt.bnames.iter().map(|a| { LKV::new(a.idx as i32, a.name.clone()) }).collect();
-    //let sn = jsbdgt.sname.iter().map(|a| { LKV::new(a.idx as i32, a.name.clone()) }).collect();
-    let act= jsbdgt.accts.iter().map(|a| { JsAcct::to_acct(a) }).collect();
+    //let act= accts.iter().map(|a| { JsAcct::to_acct(a) }).collect();
 
-    let bdgt: Budget = Budget {
-        //anames:  an,
-        //bnames: bn,
-        //sname: sn,
-        accts: act
-    };
     let f = Filter::new();
-    let mut tre = rtn_tree(&bdgt, &f).unwrap();
+    let mut tre = rtn_tree(accts, &f).unwrap();
     let ftree = add_tree(&mut tre);
     //let jstre: Vec<JsNode> = tre.iter().map(|n| {JsNode::from_node(n)}).collect();
     //let len = tre.len();  

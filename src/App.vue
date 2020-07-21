@@ -143,10 +143,12 @@ export default {
       if (this.test) {
         let td = new TestData()
         let data = td.genData(2,2,2)
+
         let rawdata = data.sort(self.nodeSort)
         self.$root.rawdata = rawdata
         console.log( typeof rawdata)
         let rtn = wasm.raw2accts(rawdata)
+        wasm.greet("T TEST")
         console.log("DATA", rtn, rawdata)
       } else {
 //      axios.get('http://localhost:8181/budget/full/_find?batch_size=5000')
@@ -163,7 +165,10 @@ export default {
             wasm.greet("I TEST")
             rslt.sort(self.nodeSort)
             let rtn = wasm.raw2accts(rslt)
-            self.$root.rawdata = rslt              
+            console.log(rtn)
+            let tre = wasm.gen_tree(rtn)
+            self.$root.rawdata = rtn 
+            console.log(tre)             
           })
           .catch(error => {
             console.log(error)

@@ -2,6 +2,7 @@ use serde::{ Deserialize};
 use std::error::Error;
 use std::path::Path;
 use serde_json::{Result, Value};
+use wasm_bindgen::prelude::*;
 
 //use csv::{ReaderBuilder};
 
@@ -74,8 +75,8 @@ struct Record {
     idx: Option<i16>
 }
 
-pub fn raw2acct(raw: Value) -> Vec<Acct> {
-    let z: Vec<Record> = serde_json::from_value(raw).unwrap();
+pub fn raw2acct(raw: JsValue) -> Vec<Acct> {
+    let z: Vec<Record> = raw.into_serde().unwrap();         // serde_json::from_value(raw).unwrap();
     let mut n: Vec<Acct> = Vec::new(); 
     for (i,t) in z.iter().enumerate() {
         let l = newleaf(t,i as i32);

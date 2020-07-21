@@ -44,27 +44,35 @@ pub struct NodesPtr {
 }
 
 #[wasm_bindgen]
-pub fn raw2accts(accts: JsValue) -> Result<JsValue, JsValue> {
-    console::log_1(&accts);  // &"Test".into());
-    Ok(accts)
+pub fn raw2accts(raw: JsValue) -> Result<JsValue, JsValue> {
+    //let 
+    console::log_1(&raw);  // &"Test".into());
+    let accts = budget::rdcsv::raw2acct(raw);
+    let j = JsValue::from_serde(&accts).unwrap();
+    Ok(j)
 }
 
 #[wasm_bindgen]
-pub fn gen_tree(accts: &JsValue) -> Result<JsValue, JsValue> {
+pub fn gen_tree(jaccts: &JsValue, jflt: JsValue) -> Result<JsValue, JsValue> {
 //pub fn init_app(bdgt: JsValue) -> Result<NodesPtr, JsValue> {
 //pub fn init_app(bdgt: JsValue) -> Result<JsValue, JsValue> {
-    console::log_1(&accts);  // &"Test".into());
+    console::log_1(jaccts);  // &"Test".into());
+    let rslt = jaccts.into_serde();
+    let mut accts: Vec<Acct> =  match rslt {
+        Ok(a) => { a},
+        Err(err) => {
+            //console::log_1(&JsValue::from_str("Parse budger json"));
+            return Err(JsValue::from_str("Parse budget json"))
+        },
+    };
+    let al = accts.len();
+    console::log_1(&JsValue::from_f64(accts.len() as f64));  // &"Test".into());
 
-    //let rs: JsBudget = bdgt.into_serde().unwrap();
-    //let s: JsBudget = bdgt.into_serde().unwrap();
-    //let b = JsBudget::to_budget(&s);
-    //let t = get_tree(s);
-    //let mut tre: Vec::<Node> = t; 
-    //Ok(NodesPtr{
-    //    nodes: tre,
-    //    bdgt: b
-    //})
-    Ok(JsValue::null())
+    //: Vec<Acct> = jaccts.into_serde().unwrap();
+    let fltr = budget::nodedata::Filter::new(); //jflt.into_serde().unwrap();
+    let rtn = rtn_tree(accts, &fltr).unwrap();
+
+    Ok(JsValue::from_f64(rtn.len() as f64))
 }
 
 #[cfg(test)]
