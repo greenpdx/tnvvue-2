@@ -1,13 +1,13 @@
 <template>
   <div class="tree-view-node">
     <div class="tvn-node">
-      <div v-if="node.hasChildren" class="tvn-expand">
+      <div v-if="node.chld.length > 0" class="tvn-expand">
         <div v-bind:class="indent" @click="onExpand">
           <span v-show="expanded">&#9660;</span>
           <span v-show="!expanded">&#9658;</span>
         </div>
         <div class="tvn-line" @click="selClick">
-          <span class="tvn-amount"> {{ node.showVal() }}</span>
+          <!--span class="tvn-amount"> {{ node.showVal() }}</span-->
           <span class="tvn-name"> {{ name }} </span>
         </div>
         <slider-node
@@ -24,7 +24,7 @@
       <div v-else>
         <div class="tvn-line" @click="selClick">
           <span class="noexpand">&#9866;</span>
-          <span class="tvn-amount"> {{ node.showVal() }}</span>
+          <!--span class="tvn-amount"> {{ node.showVal() }}</span -->
           <span class="tvn-name"> {{ name }} </span>
         </div>
         <slider-node
@@ -50,9 +50,7 @@ export default {
   },
 
   props: {
-    node: {
-      type: Node
-    },
+    nodeIdx: Number,
     level: {
       default: 0
     }
@@ -60,6 +58,7 @@ export default {
 
   data () {
     return {
+      node: null,
       total: 0,
       locked: false,
       change: false
@@ -67,16 +66,19 @@ export default {
   },
 
   created () {
-    this.node.tree = this
-    this.total = this.node.total
-    this.children = this.node.children
+    //console.log(this.nodeIdx, this.$root.tree)
+    this.node = this.$root.tree[this.nodeIdx]
+    //this.node['showVal'] = this.showVal
+    //this.total = this.node.total
+    //this.children = this.node.chld
+    console.log(this.node)
   },
 
   mounted () {
     this.change = true
   },
   updated () {
-    this.dbgPrt('tnodeUpdate')
+    //this.dbgPrt('tnodeUpdate')
   },
 
   methods: {
@@ -85,6 +87,9 @@ export default {
       'setHover',
       'setExpand'
     ]),
+    showVal() {
+
+    },
     selClick () {
       if (this.selected) {
         this.node.select = false

@@ -157,9 +157,9 @@ export default {
 
   mounted () {
     let wasm = this.$wasm
-    let srv = this.tst
+    let srv = this.top
     //let bdgt = wasm.init_app(this.tst)
-    console.log(this.tst)
+    console.log(srv)
   },
 
   watch: {
@@ -194,7 +194,7 @@ export default {
     },
 
     top() {
-      return this.$root.budget
+      return this.$root.tree
     }
   },
 
@@ -450,7 +450,6 @@ export default {
 .tnv-tree {
   display: inline-block;
   margin-left: 1em;
-  float: right;
   width: 45%;
   height: 800px;
   text-align: left;

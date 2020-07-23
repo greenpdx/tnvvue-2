@@ -20,7 +20,7 @@ WasmPack
         console.log("WASM",m)
 
         new Vue({
-          data: { budget: null, rawdata: null },
+          data: { tree: null, accts: null, template: null },
           router,
           store,
           render: h => h(App)

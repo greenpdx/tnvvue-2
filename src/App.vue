@@ -160,17 +160,15 @@ export default {
           .then(response => {
             //console.log(response)
             let rslt = response.data
-            let w = self.$wasm
-            console.log(wasm, w)
             wasm.greet("I TEST")
             rslt.sort(self.nodeSort)
-            let rtn = wasm.raw2accts(rslt)
-            console.log(rtn)
-            let tre = wasm.gen_tree(rtn)
-            self.$root.rawdata = rtn
-            self.$root.budget = tre
+            let accts = wasm.raw2accts(rslt)
+            console.log(accts)
+            let tree = wasm.gen_tree(accts)
+            self.$root.accts = Object.assign({}, accts)
+            self.$root.tree = Object.assign({}, tree)
             //self.$root
-            console.log(tre)             
+            console.log(tree)             
           })
           .catch(error => {
             console.log(error)

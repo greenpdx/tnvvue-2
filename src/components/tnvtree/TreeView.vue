@@ -1,6 +1,6 @@
 <template>
   <div class="tree-view">
-    <div v-if="top" class="tv-node">
+    <!-- div v-if="top" class="tv-node">
       <span>Total</span><span> {{ top.showVal() }} </span><br>
       <input
         type="range"
@@ -8,12 +8,13 @@
         max="10000000"
         v-bind:value="difVal">
       <span>{{ difVal }}</span>
-    </div>
+    </div -->
     <div class="tnvtree">
       <div v-for="(node, idx) in nodes" class="tv-node" :key="idx">
+        {{ node.idx }}
         <tree-view-node
-          :node="node"
-          v-on:chgParent="top.chgParent">
+          :nodeIdx="node.idx">
+          <!--v-on:chgParent="top.chgParent" -->
           <!-- slider-node v-show="selected":node="node"></slider-node -->
         </tree-view-node>
         <br>
@@ -37,14 +38,15 @@ export default {
   },
 
   props: {
-    top: {
+    raw: {
 //      type: Node
     }
   },
 
   data () {
     return {
-      nodes: [],
+
+      //nodes: [],
       node: null,
       total: 0,
       difVal: 0
@@ -54,8 +56,16 @@ export default {
   beforeCreate () {
   },
 
+  reducer (val, node, idx, tre) {
+    if (node.chld.lengh == 0) {
+      return node.val
+    }
+    let sum = node.chld.reduce(this.reduce)
+    return sum
+  },
+
   created () {
-    console.log(top)
+    console.log("TV",this.tree[0].chld)
     //this.nodes = this.top.children
     //this.total = this.top.total
     //this.top.tree = this
@@ -67,12 +77,21 @@ export default {
   },
 
   updated () {
-    this.nodes = this.top.children
+    //this.nodes = this.tree
   },
 
   computed: {
     ...mapGetters({
-    })
+    }),
+    tree () {
+      return this.$root.tree
+    },
+    accts () {
+      return this.$root.accts
+    },
+    nodes () {
+      return this.$root.tree[0].chld.map(i => this.tree[i])
+    }
   }
 }
 </script>

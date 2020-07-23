@@ -36,11 +36,26 @@ pub fn greet(raw: JsValue) {
 }
 
 #[wasm_bindgen]
-pub struct NodesPtr {
+pub struct TreePtr {
     #[wasm_bindgen(skip)]
-    pub nodes: Vec<Node>,
+    pub nodes: Vec<Node>
+}
+#[wasm_bindgen]
+pub async fn agreet(raw: JsValue) -> Result<TreePtr, JsValue>{
+    //alert("Hello, t3!");
+    let mut nodes: Vec<Node> = Vec::new();
+    // panic::set_hook(Box::new(console_error_panic_hook::hook));
+    console::log_1(&raw);  // &"Test".into());
+    Ok(TreePtr { nodes: nodes })
+
+}
+
+#[wasm_bindgen]
+pub struct AcctsPtr {
+    //#[wasm_bindgen(skip)]
+    //pub nodes: Vec<Node>,
     #[wasm_bindgen(skip)]
-    pub bdgt: Budget,
+    pub accts: Vec<Acct>,
 }
 
 #[wasm_bindgen]
@@ -48,7 +63,9 @@ pub fn raw2accts(raw: JsValue) -> Result<JsValue, JsValue> {
     //let 
     //console::log_1(&raw);  // &"Test".into());
     let accts = budget::rdcsv::raw2acct(raw);
+
     let j = JsValue::from_serde(&accts).unwrap();
+    // Ok(AcctsPtr {accts: accts})
     Ok(j)
 }
 
