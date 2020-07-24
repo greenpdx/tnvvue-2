@@ -13,8 +13,8 @@
       <div v-for="(node, idx) in nodes" class="tv-node" :key="node.idx">
         <div class="contain">
           <div class="indent" @click="onExpand($event, node)">
-            <span v-show="node.expand">&#9660;&nbsp;&nbsp;</span>
-            <span v-show="!node.expand">&#9658;&nbsp;&nbsp;</span>
+            <span v-show="node.expand">&#9660;</span>
+            <span v-show="!node.expand">&#9658;</span>
           </div>
 
           <tree-view-node
@@ -25,12 +25,12 @@
             <!-- slider-node v-show="selected":node="node"></slider-node -->
           </tree-view-node>
         </div>
-        <div v-if="node.expand">
+        <div v-show="node.expand">
           <div v-for="(bnode, bidx) in child(node.idx)" :key="bnode.idx" class="l2">
             <div class="contain">
               <div class="indent" @click="onExpand($event, bnode)">
-                <span v-show="bnode.expand">&#9660;&nbsp;&nbsp;</span>
-                <span v-show="!bnode.expand">&#9658;&nbsp;&nbsp;</span>
+                <span v-show="bnode.expand">&#9660;</span>
+                <span v-show="!bnode.expand">&#9658;</span>
               </div>
               <tree-view-node
                 :nodeIdx="bnode.idx"
@@ -39,9 +39,10 @@
                 <!-- slider-node v-show="selected":node="node"></slider-node -->
               </tree-view-node>
             </div>
-            <div v-if="bnode.expand">
+            <div v-show="bnode.expand">
               <div v-for="(cnode, cidx) in child(bnode.idx)" :key="cnode.idx" class="l2">
                 <div class="contain">
+                  <div class="indent leaf"></div>
                   <tree-view-node
                     :nodeIdx="cnode.idx"
                     :pos="cidx">
@@ -170,6 +171,9 @@ export default {
 }
 .l2 {
   margin-left: .5em;
+}
+.leaf {
+  margin-right: 1em;
 }
 .indent {
   flex: 1;

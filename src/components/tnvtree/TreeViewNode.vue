@@ -1,39 +1,14 @@
 <template>
   <div class="tree-view-node">
     <div class="tvn-node">
-      <div v-if="node.chld.length > 0" class="tvn-expand">
-        <!-- div v-bind:class="indent" @click="onExpand">
-          <span v-show="expanded">&#9660;</span>
-          <span v-show="!expanded">&#9658;</span>
-        </div -->
         <div class="tvn-line" @click="selClick">
-          <!--span class="tvn-amount"> {{ node.showVal() }}</span-->
-          <span class="tvn-name"> {{ name }} </span>
-          {{ node.key }} {{ node.val }}
-        </div>
-        <slider-node
-          v-if="selected"
-          :node="node"></slider-node>
-        <!--div v-show="expanded">
-          <div v-for="(node, idx) in nodes" :key="idx">
-            <tree-view-node
-              :node="node"
-              :level="level + 1"></tree-view-node>
-          </div>
-        </div -->
-      </div>
-      <div v-else>
-        <div class="tvn-line" @click="selClick">
-          <span class="noexpand">&#9866;</span>
-          <!--span class="tvn-amount"> {{ node.showVal() }}</span -->
+          <span class="tvn-amount"> {{ node.showVal }}</span>
           <span class="tvn-name"> {{ name }} </span>
         </div>
         <slider-node
-          v-if="selected"
+          v-if="node.select"
           :node="node"></slider-node>
       </div>
-    </div>
-    <br/>
   </div>
 </template>
 
@@ -72,11 +47,12 @@ export default {
     this.node['select'] = false
     this.node['expand'] = true
     this.node['hover'] = false
+    //this.node['showVal'] = this.showVal
 
     //this.node['showVal'] = this.showVal
     //this.total = this.node.total
     //this.children = this.node.chld
-    console.log(this.node)
+    //console.log(this.node)
   },
 
   mounted () {
@@ -101,27 +77,19 @@ export default {
         }
       } else 
         return this.node.val
-
+      return sum
     },
     selClick () {
-      if (this.selected) {
+      if (this.node.select) {
         this.node.select = false
-        this.setSelect(this.node)
+        //this.setSelect(node)
       } else {
         this.node.select = true
-        this.setSelect(this.node)
+        //this.setSelect(node)
       }
+      this.$forceUpdate()
+      console.log("SEL",this.selected, this.node.select)
     },
-    onExpand (val = null) {
-      if (this.expanded) {
-        this.node.expand = false
-        //this.setExpand(this.node)
-      } else {
-        this.node.expand = true
-        //this.setExpand(this.node)
-      }
-      console.log(this.node)
-    }
   },
 
   computed: {
@@ -132,7 +100,7 @@ export default {
     expanded: function () {
       return this.node.expand
     },
-    selected: function () {
+    selected () {
       return this.node.select
     },
     name: function () {

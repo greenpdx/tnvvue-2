@@ -1,6 +1,6 @@
 <template>
   <div class="slider-node">
-    <span class="slider-val"> {{ node.showVal(value) }}</span>
+    <span class="slider-val"> {{ node.showVal }}</span>
     <div class="slider-input"
       @wheel="onWheel($event)">
       <input
@@ -29,7 +29,7 @@ export default {
 
   props: {
     node: {
-      type: Node
+      //type: Node
     }
   },
 
@@ -45,10 +45,11 @@ export default {
   },
 
   created () {
-    this.defaultVal = this.node.default
-    this.value = this.node.value
-    this.min = this.defaultVal * 0.7
-    this.max = this.defaultVal * 1.3
+    //this.defaultVal = this.node.default
+    //this.value = this.node.value
+    //this.min = this.defaultVal * 0.7
+    //this.max = this.defaultVal * 1.3
+    console.log("SLD", this.node)
   },
 
   updated () {
@@ -104,7 +105,13 @@ export default {
 
 <style scoped>
 .slider-node {
-  float: left;
+  display: block;
+  background-color: #ddd;
+  z-index: 10;
+  opacity: 1;
+  padding: 3px;
+  border: 2px solid #000;
+  position: relative;
 }
 .slider-val {
   display: inline-block;
