@@ -11,7 +11,6 @@
     </div -->
     <div class="tnvtree">
       <div v-for="(node, idx) in nodes" class="tv-node" :key="node.idx">
-        {{ node }}
         <div class="contain">
           <div class="indent" @click="onExpand($event, node)">
             <span v-show="node.expand">&#9660;&nbsp;&nbsp;</span>
@@ -42,12 +41,14 @@
             </div>
             <div v-if="bnode.expand">
               <div v-for="(cnode, cidx) in child(bnode.idx)" :key="cnode.idx" class="l2">
-                <tree-view-node
-                  :nodeIdx="cnode.idx"
-                  :pos="cidx">
-                  <!--v-on:chgParent="top.chgParent" -->
-                  <!-- slider-node v-show="selected":node="node"></slider-node -->
-                </tree-view-node>
+                <div class="contain">
+                  <tree-view-node
+                    :nodeIdx="cnode.idx"
+                    :pos="cidx">
+                    <!--v-on:chgParent="top.chgParent" -->
+                    <!-- slider-node v-show="selected":node="node"></slider-node -->
+                  </tree-view-node>
+                </div>
               </div>
             </div>
           </div>
@@ -182,5 +183,7 @@ export default {
 }
 .contain {
   display: flex;
+  height: 1em;
+  display-outside: block;
 }
 </style>
