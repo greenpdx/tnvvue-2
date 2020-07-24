@@ -2,24 +2,25 @@
   <div class="tree-view-node">
     <div class="tvn-node">
       <div v-if="node.chld.length > 0" class="tvn-expand">
-        <div v-bind:class="indent" @click="onExpand">
+        <!-- div v-bind:class="indent" @click="onExpand">
           <span v-show="expanded">&#9660;</span>
           <span v-show="!expanded">&#9658;</span>
-        </div>
+        </div -->
         <div class="tvn-line" @click="selClick">
           <!--span class="tvn-amount"> {{ node.showVal() }}</span-->
           <span class="tvn-name"> {{ name }} </span>
+          {{ node.key }} {{ node.val }}
         </div>
         <slider-node
           v-if="selected"
           :node="node"></slider-node>
-        <div v-show="expanded">
+        <!--div v-show="expanded">
           <div v-for="(node, idx) in nodes" :key="idx">
             <tree-view-node
               :node="node"
               :level="level + 1"></tree-view-node>
           </div>
-        </div>
+        </div -->
       </div>
       <div v-else>
         <div class="tvn-line" @click="selClick">
@@ -67,7 +68,11 @@ export default {
 
   created () {
     //console.log(this.nodeIdx, this.$root.tree)
-    this.node = this.$root.tree[this.nodeIdx]
+    this.node = Object.assign({}, this.$root.tree[this.nodeIdx])
+    this.node['select'] = false
+    this.node['expand'] = true
+    this.node['hover'] = false
+
     //this.node['showVal'] = this.showVal
     //this.total = this.node.total
     //this.children = this.node.chld
@@ -88,6 +93,14 @@ export default {
       'setExpand'
     ]),
     showVal() {
+      let sum = 0
+      let chld =  this.node.chld
+      if (chld.length > 0) {
+        for (c in chld) {
+          sum += this.showVal
+        }
+      } else 
+        return this.node.val
 
     },
     selClick () {
@@ -102,11 +115,12 @@ export default {
     onExpand (val = null) {
       if (this.expanded) {
         this.node.expand = false
-        this.setExpand(this.node)
+        //this.setExpand(this.node)
       } else {
         this.node.expand = true
-        this.setExpand(this.node)
+        //this.setExpand(this.node)
       }
+      console.log(this.node)
     }
   },
 
@@ -127,9 +141,9 @@ export default {
     hovered: function () {
       return this.node.hover
     },
-    nodes: function () {
-      return this.children
-    },
+    //nodes: function () {
+    //  return this.children
+    //},
     indent: function () {
       let lvl = 'level0'
       switch (this.level) {
@@ -149,7 +163,7 @@ export default {
 
 <style scoped>
 .tree-view-node {
-  display: block;
+  display: inline-block;
   float: left;
   width: 45em;
 }

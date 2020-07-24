@@ -10,14 +10,48 @@
       <span>{{ difVal }}</span>
     </div -->
     <div class="tnvtree">
-      <div v-for="(node, idx) in nodes" class="tv-node" :key="idx">
-        {{ node.idx }}
-        <tree-view-node
-          :nodeIdx="node.idx">
-          <!--v-on:chgParent="top.chgParent" -->
-          <!-- slider-node v-show="selected":node="node"></slider-node -->
-        </tree-view-node>
-        <br>
+      <div v-for="(node, idx) in nodes" class="tv-node" :key="node.idx">
+        {{ node }}
+        <div class="contain">
+          <div class="indent" @click="onExpand($event, node)">
+            <span v-show="node.expand">&#9660;&nbsp;&nbsp;</span>
+            <span v-show="!node.expand">&#9658;&nbsp;&nbsp;</span>
+          </div>
+
+          <tree-view-node
+            class="tvclass"
+            :nodeIdx="node.idx"
+            :pos="idx">
+            <!--v-on:chgParent="top.chgParent" -->
+            <!-- slider-node v-show="selected":node="node"></slider-node -->
+          </tree-view-node>
+        </div>
+        <div v-if="node.expand">
+          <div v-for="(bnode, bidx) in child(node.idx)" :key="bnode.idx" class="l2">
+            <div class="contain">
+              <div class="indent" @click="onExpand($event, bnode)">
+                <span v-show="bnode.expand">&#9660;&nbsp;&nbsp;</span>
+                <span v-show="!bnode.expand">&#9658;&nbsp;&nbsp;</span>
+              </div>
+              <tree-view-node
+                :nodeIdx="bnode.idx"
+                :pos="bidx">
+                <!--v-on:chgParent="top.chgParent" -->
+                <!-- slider-node v-show="selected":node="node"></slider-node -->
+              </tree-view-node>
+            </div>
+            <div v-if="bnode.expand">
+              <div v-for="(cnode, cidx) in child(bnode.idx)" :key="cnode.idx" class="l2">
+                <tree-view-node
+                  :nodeIdx="cnode.idx"
+                  :pos="cidx">
+                  <!--v-on:chgParent="top.chgParent" -->
+                  <!-- slider-node v-show="selected":node="node"></slider-node -->
+                </tree-view-node>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -47,7 +81,7 @@ export default {
     return {
 
       //nodes: [],
-      node: null,
+      //node: null,
       total: 0,
       difVal: 0
     }
@@ -74,6 +108,24 @@ export default {
   },
 
   methods: {
+    // return all the children nodes
+    child(nidx) {
+       let ns = this.tree[nidx].chld.map(i => this.tree[i])
+       return ns.sort((a,b) => { return a.val - b.val})
+    },
+    onExpand(evt, node) {
+
+      console.log(evt, node)
+      if (node.expand) {
+        node.expand = false
+        //this.setExpand(this.node)
+      } else {
+        node.expand = true
+        //this.setExpand(this.node)
+      }
+      this.$forceUpdate()
+    }
+
   },
 
   updated () {
@@ -91,7 +143,7 @@ export default {
     },
     nodes () {
       return this.$root.tree[0].chld.map(i => this.tree[i])
-    }
+    },
   }
 }
 </script>
@@ -114,5 +166,21 @@ export default {
 }
 .top-slide {
   float: left;
+}
+.l2 {
+  margin-left: .5em;
+}
+.indent {
+  flex: 1;
+  text-align: left;
+  cursor: zoom-in;
+  width: 3em;
+  padding-right: 1em;
+}
+.tvclass {
+  float: right
+}
+.contain {
+  display: flex;
 }
 </style>
