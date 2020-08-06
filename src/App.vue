@@ -168,7 +168,7 @@ export default {
             self.$root.accts = Object.assign({}, accts)
             self.$root.tree = Object.assign({}, tree)
             //self.$root
-            console.log(tree)             
+            console.log('GD',tree)             
           })
           .catch(error => {
             console.log(error)

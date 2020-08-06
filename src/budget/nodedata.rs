@@ -212,29 +212,31 @@ fn filtr_acct( acct: &Acct, filter: &Filter) -> BVal {
         }
         None => true
     };
-   let scode = match filter.scode {
+    /*
+    let scode = match filter.scode {
         Some(s) => {
             s == acct.scode
         }
         None => true
-    };
-   let onoff = match filter.onoff {
+    };*/
+    let onoff = match filter.onoff {
         Some(o) => {
             o == acct.onoff
         }
         None => true
     };
-   let tac = match filter.tac {
+    /*let tac = match filter.tac {
         Some(t) => {
             t == acct.tac
         }
         None => true
-    };
+    };*/
     let y = filter.year as usize;
     let yv = acct.value[y];
     let year = yv != 0;
     //println!("{:?} {:?} {:?} {:?}", bea, scode, year, yv);
-    if year && bea && scode && onoff && tac {
+    //if year && bea && scode && onoff && tac {
+    if year && bea && onoff {
         yv as BVal
     } else {
         0.0

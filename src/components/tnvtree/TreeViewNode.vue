@@ -1,9 +1,10 @@
 <template>
   <div class="tree-view-node">
-    <div class="tvn-node">
-        <div class="tvn-line" @click="selClick">
-          <span class="tvn-amount"> {{ node.showVal }}</span>
-          <span class="tvn-name"> {{ name }} </span>
+    <div class="tnv-node">
+        <div class="tnv-line" @click="selClick">
+          <span class="tnv-amount"> {{ nodeval }}</span>
+          <span class="tnv-name"> {{ name }} </span>
+          <span class="tnv-idx"> {{ node.idx }} </span>
         </div>
         <slider-node
           v-if="node.select"
@@ -17,6 +18,8 @@ import { mapGetters, mapActions } from 'vuex'
 import Node from '@/lib/Node'
 
 import SliderNode from './SliderNode'
+
+let tmpvar = {}
 
 export default {
   name: 'TreeViewNode',
@@ -37,16 +40,34 @@ export default {
       node: null,
       total: 0,
       locked: false,
-      change: false
+      change: false,
+      value: 0,
+      default: 0,
+      children: []
     }
   },
 
   created () {
     //console.log(this.nodeIdx, this.$root.tree)
-    this.node = Object.assign({}, this.$root.tree[this.nodeIdx])
-    this.node['select'] = false
-    this.node['expand'] = true
-    this.node['hover'] = false
+    let node = Object.assign({}, this.$root.tree[this.nodeIdx])
+    node['select'] = false
+    node['expand'] = true
+    node['hover'] = false
+    this.default = 0
+    this.value = 0
+    this.self = this
+    if (node.leaf != -1) {
+      let leaf = this.$root.accts[node.leaf]
+      this.value = leaf.value['y2019']
+      //console.log(this.value, leaf)
+      this.default = this.value
+    } else {
+      this.value = 0
+    }
+    //node['nodeval'] = this.nodeval
+    node['self'] = this
+    this.node = node
+    tmpvar = node
     //this.node['showVal'] = this.showVal
 
     //this.node['showVal'] = this.showVal
@@ -76,10 +97,11 @@ export default {
           sum += this.showVal
         }
       } else 
-        return this.node.val
+        return this.value
       return sum
     },
     selClick () {
+      console.log(tmpvar)
       if (this.node.select) {
         this.node.select = false
         //this.setSelect(node)
@@ -97,6 +119,24 @@ export default {
       'rawData',
       'getNodeByIdx'
     ]),
+    leafval () {
+      return this.$root.accts[this.node.leaf]
+    },
+    nodeval () {
+      //console.log(this.node)
+      let node = this.node
+      let sum = 0
+      if (node.leaf === -1) {
+        for (let c of node.chld) {
+          let n = this.$root.tree[c]
+          console.log(c, n)
+          //sum += n.nodeval()
+        }
+      } else {
+        sum = this.value
+      }
+      return sum
+    },
     expanded: function () {
       return this.node.expand
     },
@@ -169,21 +209,27 @@ export default {
   width: 1em;
   padding-left: 2em;
 }
-.tvn-node {
+.tnv-node {
   display: inline-block;
   float: left;
   width: 100%
 }
-.tvn-line {
+.tnv-line {
   text-align: left;
   cursor: cell;
 }
-.tvn-amount {
+.tnv-amount {
   display: inline-block;
   width: 4em;
   text-align: right;
   margin-right: 1em;
 }
-.tvn-name {
+.tnv-name {
 }
+.tnv-idx {
+  width: 2em;
+  opacity: 30%;
+  color: #444;
+}
+
 </style>
