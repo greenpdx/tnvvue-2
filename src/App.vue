@@ -166,8 +166,11 @@ export default {
             console.log(accts)
             let tree = wasm.gen_tree(accts)
             self.$root.accts = Object.assign({}, accts)
-            self.$root.tree = Object.assign({}, tree)
+            tree = Object.assign({}, tree)
             //self.$root
+            //self.$root.tree = tree
+            this.$store.commit('LoadNodes', tree)
+            this.$store.commit('loaded', true)
             console.log('GD',tree)             
           })
           .catch(error => {

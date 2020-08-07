@@ -32,7 +32,9 @@ export default {
     nodeIdx: Number,
     level: {
       default: 0
-    }
+    },
+    gSel: Number,
+    gExp: Number
   },
 
   data () {
@@ -49,7 +51,8 @@ export default {
 
   created () {
     //console.log(this.nodeIdx, this.$root.tree)
-    let node = Object.assign({}, this.$root.tree[this.nodeIdx])
+    let node = this.getNode(this.nodeIdx)
+    //let node = Object.assign({}, this.$root.tree[this.nodeIdx])
     node['select'] = false
     node['expand'] = true
     node['hover'] = false
@@ -102,11 +105,17 @@ export default {
     },
     selClick () {
       console.log(tmpvar)
+      if (this.gSel >= 0) {
+        console.log('SELBSY')
+        return
+      }
       if (this.node.select) {
         this.node.select = false
+        this.$emit('TreeNodeSel', this.nodeIdx ,false)
         //this.setSelect(node)
       } else {
         this.node.select = true
+        this.$emit('TreeNodeSel', this.nodeIdx, true)
         //this.setSelect(node)
       }
       this.$forceUpdate()
@@ -117,7 +126,9 @@ export default {
   computed: {
     ...mapGetters([
       'rawData',
-      'getNodeByIdx'
+      'getNodeByIdx',
+      'getNodes',
+      'getNode'
     ]),
     leafval () {
       return this.$root.accts[this.node.leaf]
@@ -128,8 +139,8 @@ export default {
       let sum = 0
       if (node.leaf === -1) {
         for (let c of node.chld) {
-          let n = this.$root.tree[c]
-          console.log(c, n)
+          let n = this.getNode(c)
+          //console.log(c, n)
           //sum += n.nodeval()
         }
       } else {

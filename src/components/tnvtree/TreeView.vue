@@ -1,14 +1,15 @@
 <template>
   <div class="tree-view">
-    <!-- div v-if="top" class="tv-node">
-      <span>Total</span><span> {{ top.showVal() }} </span><br>
+    <div class="tv-node">
+      <!-- span>Total</span><span> {{ top.showVal() }} </span><br>
       <input
         type="range"
         min="-10000000"
         max="10000000"
         v-bind:value="difVal">
-      <span>{{ difVal }}</span>
-    </div -->
+      <span>{{ difVal }}</span -->
+      <button @click="btnClk">Collapse</button>
+    </div>
     <div class="tnvtree">
       <div v-for="(node, idx) in nodes" class="tv-node" :key="node.idx">
         <div class="contain">
@@ -19,6 +20,9 @@
 
           <tree-view-node
             class="tvclass"
+            @TreeNodeSel="nodeSel"
+            :gSel="gSel"
+            :gExp="gExp"
             :nodeIdx="node.idx"
             :pos="idx">
             <!--v-on:chgParent="top.chgParent" -->
@@ -33,6 +37,9 @@
                 <span v-show="!bnode.expand">&#9658;</span>
               </div>
               <tree-view-node
+                @TreeNodeSel="nodeSel"
+                :gSel="gSel"
+                :gExp="gExp"
                 :nodeIdx="bnode.idx"
                 :pos="bidx">
                 <!--v-on:chgParent="top.chgParent" -->
@@ -44,6 +51,9 @@
                 <div class="contain">
                   <div class="indent leaf"></div>
                   <tree-view-node
+                    @TreeNodeSel="nodeSel"
+                    :gSel="gSel"
+                    :gExp="gExp"
                     :nodeIdx="cnode.idx"
                     :pos="cidx">
                     <!--v-on:chgParent="top.chgParent" -->
@@ -85,7 +95,9 @@ export default {
       //nodes: [],
       //node: null,
       total: 0,
-      difVal: 0
+      difVal: 0,
+      gSel: -1,
+      gExp: -1,
     }
   },
 
@@ -101,7 +113,8 @@ export default {
   },
 
   created () {
-    console.log("TV",this.tree[0].chld)
+    console.log('TVTV')
+    //console.log("TV",this.getNode(0).chld)
     //this.nodes = this.top.children
     //this.total = this.top.total
     //this.top.tree = this
@@ -110,10 +123,24 @@ export default {
   },
 
   methods: {
+    btnClk () {
+      console.log('BTNCLK')
+    },
+
+    nodeSel (idx, val) {
+      if (val === false ) {
+        this.selected = -1
+      } else {
+        this.selected = idx
+      }
+      console.log('NS',idx,val)
+    },
     // return all the children nodes
     child(nidx) {
-       let ns = this.tree[nidx].chld.map(i => this.tree[i])
-       return ns.sort((a,b) => { return a.val - b.val})
+      let node = this.getNode(nidx)
+
+      let ns = node.chld.map(i => this.getNode(i))
+      return ns.sort((a,b) => { return a.val - b.val})
     },
     onExpand(evt, node) {
 
@@ -135,16 +162,21 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-    }),
+    ...mapGetters([
+      'getNodes',
+      'getNode'
+    ]),
     tree () {
-      return this.$root.tree
+      return this.getNodes
     },
     accts () {
       return this.$root.accts
     },
     nodes () {
-      return this.$root.tree[0].chld.map(i => this.tree[i])
+      let node = this.getNode(0)
+      let ns = node.chld.map(i => this.getNode(i))
+      console.log('TVnodes',ns,node)
+      return ns
     },
   }
 }

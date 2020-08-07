@@ -1,5 +1,8 @@
 <template>
   <div class="tnvvote">
+  <div>
+    <span>Change your Tax Dollar </span> <button @click="btnClk">Load</button>
+  </div>
     <!-- TEST -->
     <!-- div>
       <div v-for="(acct, idx) in tst" :key="idx">
@@ -63,7 +66,7 @@
       </div>
     </div -->
     <div class="tnv-tree">
-      <tree-view v-if="top" :top="top">
+      <tree-view v-if="isLoaded">
       </tree-view>
     </div>
   </div>
@@ -173,7 +176,9 @@ export default {
       hoverNode: 'hoverNode',
       selectNode: 'selectNode',
       expandNode: 'expandNode',
-      webglEnabled: 'webglEnabled'
+      webglEnabled: 'webglEnabled',
+      getNodes: 'getNodes',
+      isLoaded: 'isLoaded'
     }),
 
     showInfo () {
@@ -194,7 +199,9 @@ export default {
     },
 
     top() {
-      return this.$root.tree
+      let ns = this.$store.getNodes
+      console.log(ns)
+      return ns
     }
   },
 
@@ -204,6 +211,9 @@ export default {
       'setExpand',
       'noWebgl'
     ]),
+    btnClk () {
+      console.log('LOAD')
+    },
     sortSum (a, b) {
       if (a.sum > b.sum) { return -1 }
       if (a.sum < b.sum) { return 1 }

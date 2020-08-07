@@ -14,7 +14,9 @@ const modLogin = {
     nonce: '',
     salt: '',
     pkey: '',
-    pnonce: ''
+    pnonce: '',
+    nodes: [],
+    loaded: false
   },
   getters: {
     email: state => state.email,
@@ -23,7 +25,12 @@ const modLogin = {
     key: state => state.key,
     pkey: state => state.pkey,
     salt: state => state.salt,
-    pnonce: state => state.pnonce
+    pnonce: state => state.pnonce,
+    getNodes: state => state.nodes,
+    getNode: (state) => (idx) => {
+      return state.nodes[idx]
+    },
+    isLoaded: state => state.loaded
   },
   mutations: {
     EMAIL (state, em) {
@@ -46,6 +53,12 @@ const modLogin = {
     },
     PNONCE (state, pn) {
       state.pnonce = pn
+    },
+    LoadNodes (state, ns) {
+      state.nodes = ns
+    },
+    loaded (state, l) {
+      state.loaded = l
     }
   },
   actions: {
