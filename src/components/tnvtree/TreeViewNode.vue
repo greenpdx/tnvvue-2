@@ -2,7 +2,7 @@
   <div class="tree-view-node">
     <div class="tnv-node">
         <div class="tnv-line" @click="selClick">
-          <span class="tnv-amount"> {{ nodeval }}</span>
+          <span class="tnv-amount"> {{ nodeval(node) }}</span>
           <span class="tnv-name"> {{ name }} </span>
           <span class="tnv-idx"> {{ node.idx }} </span>
         </div>
@@ -54,16 +54,17 @@ export default {
     let node = this.getNode(this.nodeIdx)
     //let node = Object.assign({}, this.$root.tree[this.nodeIdx])
     node['select'] = false
-    node['expand'] = true
+    node['expand'] = false
     node['hover'] = false
     this.default = 0
     this.value = 0
     this.self = this
     if (node.leaf != -1) {
       let leaf = this.$root.accts[node.leaf]
-      this.value = leaf.value['y2019']
-      //console.log(this.value, leaf)
-      this.default = this.value
+      let val = leaf.value[43]
+      //console.log(val, leaf)
+      this.default = val
+      this.value = val
     } else {
       this.value = 0
     }
@@ -92,6 +93,24 @@ export default {
       'setHover',
       'setExpand'
     ]),
+    nodeval (node) {
+      //console.log(node)
+      //let node = this.node
+      let sum = 0
+      if (node.leaf === -1) {
+        for (let c of node.chld) {
+          let n = this.getNode(c)
+          let v = this.nodeval(n)
+          console.log(c, n, v)
+          sum += v
+        }
+      } else {
+        sum = node.val
+        //console.log('NVN', node.idx,  sum)
+      }
+      return sum
+    },
+
     showVal() {
       let sum = 0
       let chld =  this.node.chld
@@ -133,7 +152,7 @@ export default {
     leafval () {
       return this.$root.accts[this.node.leaf]
     },
-    nodeval () {
+/*    nodeval () {
       //console.log(this.node)
       let node = this.node
       let sum = 0
@@ -141,13 +160,13 @@ export default {
         for (let c of node.chld) {
           let n = this.getNode(c)
           //console.log(c, n)
-          //sum += n.nodeval()
+          sum += n.val
         }
       } else {
         sum = this.value
       }
       return sum
-    },
+    }, */
     expanded: function () {
       return this.node.expand
     },

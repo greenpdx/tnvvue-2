@@ -175,7 +175,7 @@ export default {
     nodes () {
       let node = this.getNode(0)
       let ns = node.chld.map(i => this.getNode(i))
-      console.log('TVnodes',ns,node)
+      //console.log('TVnodes',ns,node)
       return ns
     },
   }
