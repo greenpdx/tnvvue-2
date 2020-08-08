@@ -98,6 +98,7 @@ export default {
       difVal: 0,
       gSel: -1,
       gExp: -1,
+      dbgcnt: 4
     }
   },
 
@@ -140,7 +141,12 @@ export default {
       let node = this.getNode(nidx)
 
       let ns = node.chld.map(i => this.getNode(i))
-      return ns.sort((a,b) => { return a.val - b.val})
+      let ss = ns.sort((a,b) => { return b.val - a.val})
+      if (this.dbgcnt > 0 ) {
+        console.log('CHLD',ss)
+        this.dbgcnt -= 1
+      }
+      return ss
     },
     onExpand(evt, node) {
 
@@ -174,8 +180,9 @@ export default {
     },
     nodes () {
       let node = this.getNode(0)
-      let ns = node.chld.map(i => this.getNode(i))
-      //console.log('TVnodes',ns,node)
+      let ss = node.chld.map(i => this.getNode(i))
+      let ns = ss.sort((a,b) => { b.val - a.val })
+      console.log('TVnodes',ns,ss)
       return ns
     },
   }

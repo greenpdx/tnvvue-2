@@ -1,7 +1,9 @@
 <template>
   <div class="tnvvote">
   <div>
-    <span>Change your Tax Dollar </span> <button @click="btnClk">Load</button>
+    <span>Change your Tax Dollar </span>
+    <button @click="btnClk">Load</button>
+    <input type="text" v-model="in0"/>
   </div>
     <!-- TEST -->
     <!-- div>
@@ -96,6 +98,7 @@ export default {
 
   data () {
     return {
+      in0: 0,
       objInfo: '',
       waitmsg: "Under construction",
       threeSize: {

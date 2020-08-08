@@ -101,7 +101,7 @@ export default {
         for (let c of node.chld) {
           let n = this.getNode(c)
           let v = this.nodeval(n)
-          console.log(c, n, v)
+          //console.log(c, n, v)
           sum += v
         }
       } else {

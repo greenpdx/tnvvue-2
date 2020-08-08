@@ -30,6 +30,11 @@ const modLogin = {
     getNode: (state) => (idx) => {
       return state.nodes[idx]
     },
+    getValue: (state) => (idx) => {
+      let node = state.nodes[idx]
+
+      return node.val 
+    },
     isLoaded: state => state.loaded
   },
   mutations: {
