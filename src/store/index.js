@@ -35,8 +35,11 @@ const modLogin = {
 
       return node.val 
     },
-    isLoaded: state => state.loaded
-  },
+    isLoaded: state => state.loaded,
+    setNode: (state) => (n) => {
+      state.nodes[n.idx] = n
+    }
+},
   mutations: {
     EMAIL (state, em) {
       state.email = em
@@ -64,7 +67,7 @@ const modLogin = {
     },
     loaded (state, l) {
       state.loaded = l
-    }
+    },
   },
   actions: {
     email ({commit}, em) {

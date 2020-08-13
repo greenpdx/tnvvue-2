@@ -216,6 +216,8 @@ export default {
     ]),
     btnClk () {
       console.log('LOAD')
+      let wasm = this.$wasm
+      let rtn = wasm.load_csv('/budauth_min.csv')
     },
     sortSum (a, b) {
       if (a.sum > b.sum) { return -1 }

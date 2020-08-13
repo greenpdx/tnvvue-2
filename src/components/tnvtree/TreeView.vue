@@ -8,7 +8,7 @@
         max="10000000"
         v-bind:value="difVal">
       <span>{{ difVal }}</span -->
-      <button @click="btnClk">Collapse</button>
+      <button @click="btnClk">Collapse</button> {{ sum }}
     </div>
     <div class="tnvtree">
       <div v-for="(node, idx) in nodes" class="tv-node" :key="node.idx">
@@ -30,7 +30,8 @@
           </tree-view-node>
         </div>
         <div v-show="node.expand">
-          <div v-for="(bnode, bidx) in child(node.idx)" :key="bnode.idx" class="l2">
+          <!--div v-for="(bnode, bidx) in child(node.chld)" :key="bnode.idx" class="l2"-->
+          <div v-for="(bnode, bidx) in node.chld" :key="bnode.idx" class="l2">
             <div class="contain">
               <div class="indent" @click="onExpand($event, bnode)">
                 <span v-show="bnode.expand">&#9660;</span>
@@ -47,7 +48,8 @@
               </tree-view-node>
             </div>
             <div v-show="bnode.expand">
-              <div v-for="(cnode, cidx) in child(bnode.idx)" :key="cnode.idx" class="l2">
+              <!--div v-for="(cnode, cidx) in child(bnode.chld)" :key="cnode.idx" class="l2"-->
+              <div v-for="(cnode, cidx) in bnode.chld" :key="cnode.idx" class="l2">
                 <div class="contain">
                   <div class="indent leaf"></div>
                   <tree-view-node
@@ -98,7 +100,9 @@ export default {
       difVal: 0,
       gSel: -1,
       gExp: -1,
-      dbgcnt: 4
+      dbgcnt: 4,
+      sum: 0,
+      once: true
     }
   },
 
@@ -115,6 +119,36 @@ export default {
 
   created () {
     console.log('TVTV')
+    let node = this.getNode(0)
+    let ss = node.chld.map(i => this.getNode(i))
+    let sum = 0
+    for (let a of ss) {
+      let asum = 0
+      let bb = a.chld.map(i => this.getNode(i))
+      for (let b of bb) {
+        let cc = b.chld.map(i => this.getNode(i))
+        let bsum= 0
+        for (let c of cc) {
+          bsum += c.val
+        }
+        b.chld = cc.sort((a,b) => { return b.val - a.val})
+        //console.log("ONCE", b.chld)
+        for (let i in cc) {
+          console.log(cc[i].val)
+        }
+        b.val = bsum
+            this.set
+            asum += bsum
+            console.log(".")
+          }
+          a.chld = bb.sort((a,b)=>{ return b.val - a.val})
+          a.val = asum
+          sum += asum
+        }
+        node.val = sum
+        //this.sum = sum
+        node.chld = ss.sort((a,b)=>{ return b.val - a.val})
+
     //console.log("TV",this.getNode(0).chld)
     //this.nodes = this.top.children
     //this.total = this.top.total
@@ -124,8 +158,30 @@ export default {
   },
 
   methods: {
+    sortVals (a, b, zot) {
+      let node = this.getNode(0)
+      let sum = 0
+      for (let a of node.chld) {
+        let asum = 0
+        for (let b of a.chld) {
+          let bsum= 0
+          for (let c of b.chld) {
+            bsum += c.val
+          }
+          b.chld.sort((a,b) => { return b.val - a.val})
+          b.val = bsum
+          asum += bsum
+        }
+        a.chld.sort((a,b)=>{ return b.val - a.val})
+        a.val = asum
+        sum += asum
+      }
+      node.val = sum
+      node.chld.sort((a,b)=>{ return b.val - a.val})
+    },
     btnClk () {
       console.log('BTNCLK')
+      let zot = this.nodes[3]
     },
 
     nodeSel (idx, val) {
@@ -137,16 +193,16 @@ export default {
       console.log('NS',idx,val)
     },
     // return all the children nodes
-    child(nidx) {
-      let node = this.getNode(nidx)
+    child(chld) {
+      //let node = this.getNode(nidx)
 
-      let ns = node.chld.map(i => this.getNode(i))
-      let ss = ns.sort((a,b) => { return b.val - a.val})
+      //let ns = node.chld
+      chld.sort((a,b) => { return b.val - a.val})
       if (this.dbgcnt > 0 ) {
-        console.log('CHLD',ss)
+        console.log('CHLD',chld)
         this.dbgcnt -= 1
       }
-      return ss
+      return chld
     },
     onExpand(evt, node) {
 
@@ -159,8 +215,10 @@ export default {
         //this.setExpand(this.node)
       }
       this.$forceUpdate()
-    }
+    },
+    addsum () {
 
+    }
   },
 
   updated () {
@@ -170,7 +228,8 @@ export default {
   computed: {
     ...mapGetters([
       'getNodes',
-      'getNode'
+      'getNode',
+      'setNode'
     ]),
     tree () {
       return this.getNodes
@@ -179,11 +238,14 @@ export default {
       return this.$root.accts
     },
     nodes () {
+      console.log("NODES base")
       let node = this.getNode(0)
-      let ss = node.chld.map(i => this.getNode(i))
-      let ns = ss.sort((a,b) => { b.val - a.val })
-      console.log('TVnodes',ns,ss)
-      return ns
+      let ss = node.chld
+      // console.log(ss)
+      let zot = []
+      ss.sort((a,b) => { return b.val -a.val })
+      //console.log('TVnodes',ns)
+      return ss
     },
   }
 }

@@ -29,6 +29,11 @@ extern {
 }
 
 #[wasm_bindgen]
+pub fn load_budget(url: &str) {
+    
+}
+
+#[wasm_bindgen]
 pub fn greet(raw: JsValue) {
     //alert("Hello, t3!");
     panic::set_hook(Box::new(console_error_panic_hook::hook));

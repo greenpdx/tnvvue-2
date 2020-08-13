@@ -61,7 +61,7 @@ export default {
     this.self = this
     if (node.leaf != -1) {
       let leaf = this.$root.accts[node.leaf]
-      let val = leaf.value[43]
+      let val = leaf.value[43]/1000
       //console.log(val, leaf)
       this.default = val
       this.value = val
@@ -71,6 +71,7 @@ export default {
     //node['nodeval'] = this.nodeval
     node['self'] = this
     this.node = node
+    this.setNode(node)
     tmpvar = node
     //this.node['showVal'] = this.showVal
 
@@ -97,21 +98,21 @@ export default {
       //console.log(node)
       //let node = this.node
       let sum = 0
-      if (node.leaf === -1) {
-        for (let c of node.chld) {
-          let n = this.getNode(c)
-          let v = this.nodeval(n)
+      //if (node.leaf === -1) {
+      //  for (let c of node.chld) {
+          //let n = this.getNode(c)
+          //let v = this.nodeval(n)
           //console.log(c, n, v)
-          sum += v
-        }
-      } else {
+      //    sum += c.val
+      //  }
+      //} else {
         sum = node.val
         //console.log('NVN', node.idx,  sum)
-      }
+      //}
       return sum
     },
 
-    showVal() {
+    /*showVal() {
       let sum = 0
       let chld =  this.node.chld
       if (chld.length > 0) {
@@ -121,7 +122,7 @@ export default {
       } else 
         return this.value
       return sum
-    },
+    },*/
     selClick () {
       console.log(tmpvar)
       if (this.gSel >= 0) {
@@ -147,7 +148,8 @@ export default {
       'rawData',
       'getNodeByIdx',
       'getNodes',
-      'getNode'
+      'getNode',
+      'setNode'
     ]),
     leafval () {
       return this.$root.accts[this.node.leaf]
@@ -247,10 +249,12 @@ export default {
 .tnv-line {
   text-align: left;
   cursor: cell;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .tnv-amount {
   display: inline-block;
-  width: 4em;
+  width: 5em;
   text-align: right;
   margin-right: 1em;
 }
