@@ -10,13 +10,13 @@ use std::f64;
 #[repr(i32)]
 #[derive(Debug, Clone, Copy, PartialEq,Deserialize, Serialize)]
 pub enum Year {
-Y1976, TQ, Y1977, Y1978, Y1979, Y1980, Y1981,
+/*Y1976, TQ, Y1977, Y1978, Y1979, Y1980, Y1981,
 Y1982, Y1983, Y1984, Y1985, Y1986, Y1987,
 Y1988, Y1989, Y1990, Y1991, Y1992, Y1993,
 Y1994, Y1995, Y1996, Y1997, Y1998, Y1999,
 Y2000, Y2001, Y2002, Y2003, Y2004, Y2005,
 Y2006, Y2007, Y2008, Y2009, Y2010, Y2011,
-Y2012, Y2013, Y2014, Y2015, Y2016, Y2017,
+Y2012, Y2013, Y2014,*/ Y2015, Y2016, Y2017,
 Y2018, Y2019, Y2020, Y2021, Y2022, Y2023,
 Y2024
 }
@@ -199,13 +199,13 @@ impl Filter {
             tac: None,
             scode: None,
             bea: Some(BEACat::D),
-            onoff: None,
-            year: Year::Y2020
+            onoff: Some(true),
+            year: Year::Y2019
         } 
     }
 }
 
-fn filtr_acct( acct: &Acct, filter: &Filter) -> BVal {
+pub fn filtr_acct( acct: &Acct, filter: &Filter) -> BVal {
     let bea = match filter.bea  {
         Some(b) => {
             b == acct.bea
@@ -268,10 +268,12 @@ pub fn rtn_tree(accts: Vec<Acct>,filter: &Filter) -> Result<Vec<Node>, Box<dyn E
         let ans  =  filtr_acct(act, &filter);
         if ans == 0.0 { continue; }
         //if cnt > 12 {
-        //    break
+        //    break;
         //}
         cnt = cnt + 1;
-
+        if act.bea != BEACat::D || act.onoff == false || act.value[4] == 0 {
+            continue;
+        }
         let mut aidx = -1;
         let mut bidx = -1;
         /*

@@ -2,8 +2,9 @@
   <div class="tnvvote">
   <div>
     <span>Change your Tax Dollar </span>
-    <button @click="btnClk">Load</button>
+    <button @click="btnLoad('l')">Load</button>
     <input type="text" v-model="in0"/>
+    <button @click="btnSave('s')">Save</button>
   </div>
     <!-- TEST -->
     <!-- div>
@@ -181,7 +182,7 @@ export default {
       expandNode: 'expandNode',
       webglEnabled: 'webglEnabled',
       getNodes: 'getNodes',
-      isLoaded: 'isLoaded'
+      isLoaded: 'isLoaded',
     }),
 
     showInfo () {
@@ -214,11 +215,34 @@ export default {
       'setExpand',
       'noWebgl'
     ]),
-    btnClk () {
+    async btnLoad (ls) {
       console.log('LOAD')
       let wasm = this.$wasm
-      let rtn = wasm.load_csv('/budauth_min.csv')
+      wasm.load_template('/budauth_min.csv')
+        .then((csv) => {
+          console.log(csv) 
+        })
+        .catch((err) => { console.log(err) })
     },
+    async btnSave() {
+      let obj = this.getNodes
+      let ary = []
+      //let k = obj.keys()
+      let cnt = 0;
+      for (let v in obj) {
+        let itm = obj[v]
+        cnt = cnt + 1;
+        if ( itm.key.acode < 0 || itm.key.bcode < 0 || itm.key.ccode < 0 ) continue
+        if ( itm.val == 0 ) continue
+        //if ( itm)
+        let t = { acode: itm.key.acode, bcode: itm.key.bcode, ccode: itm.key.ccode, val: itm.val}
+        ary.push(t)
+      }
+      console.log('SAVE',cnt, ary.length)
+        
+
+    },
+
     sortSum (a, b) {
       if (a.sum > b.sum) { return -1 }
       if (a.sum < b.sum) { return 1 }

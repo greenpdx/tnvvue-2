@@ -24,7 +24,8 @@
             :gSel="gSel"
             :gExp="gExp"
             :nodeIdx="node.idx"
-            :pos="idx">
+            :pos="idx"
+            :sum="sum">
             <!--v-on:chgParent="top.chgParent" -->
             <!-- slider-node v-show="selected":node="node"></slider-node -->
           </tree-view-node>
@@ -42,7 +43,8 @@
                 :gSel="gSel"
                 :gExp="gExp"
                 :nodeIdx="bnode.idx"
-                :pos="bidx">
+                :pos="bidx"
+                :sum="sum">
                 <!--v-on:chgParent="top.chgParent" -->
                 <!-- slider-node v-show="selected":node="node"></slider-node -->
               </tree-view-node>
@@ -57,7 +59,8 @@
                     :gSel="gSel"
                     :gExp="gExp"
                     :nodeIdx="cnode.idx"
-                    :pos="cidx">
+                    :pos="cidx"
+                    :sum="sum">
                     <!--v-on:chgParent="top.chgParent" -->
                     <!-- slider-node v-show="selected":node="node"></slider-node -->
                   </tree-view-node>
@@ -118,7 +121,7 @@ export default {
   },
 
   created () {
-    console.log('TVTV')
+    //console.log('TVTV')
     let node = this.getNode(0)
     let ss = node.chld.map(i => this.getNode(i))
     let sum = 0
@@ -133,21 +136,22 @@ export default {
         }
         b.chld = cc.sort((a,b) => { return b.val - a.val})
         //console.log("ONCE", b.chld)
-        for (let i in cc) {
-          console.log(cc[i].val)
-        }
+        //for (let i in cc) {
+        //  console.log(cc[i].val)
+        //}
         b.val = bsum
-            this.set
-            asum += bsum
-            console.log(".")
-          }
-          a.chld = bb.sort((a,b)=>{ return b.val - a.val})
-          a.val = asum
-          sum += asum
-        }
-        node.val = sum
+        asum += bsum
+            //console.log(".")
+      }
+      a.chld = bb.sort((a,b)=>{ return b.val - a.val})
+      a.val = asum
+      sum += asum
+    }
+    node.val = sum
+    this.sum = sum
+    console.log('SUM', sum)
         //this.sum = sum
-        node.chld = ss.sort((a,b)=>{ return b.val - a.val})
+    node.chld = ss.sort((a,b)=>{ return b.val - a.val})
 
     //console.log("TV",this.getNode(0).chld)
     //this.nodes = this.top.children
@@ -219,7 +223,7 @@ export default {
     addsum () {
 
     }
-  },
+},
 
   updated () {
     //this.nodes = this.tree
@@ -240,7 +244,7 @@ export default {
     nodes () {
       console.log("NODES base")
       let node = this.getNode(0)
-      let ss = node.chld
+      let ss = node.chld //.slice(10,11)
       // console.log(ss)
       let zot = []
       ss.sort((a,b) => { return b.val -a.val })

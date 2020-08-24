@@ -3,6 +3,7 @@ use std::error::Error;
 use std::path::Path;
 use serde_json::{Result, Value};
 use wasm_bindgen::prelude::*;
+use web_sys::console;
 
 //use csv::{ReaderBuilder};
 
@@ -22,7 +23,7 @@ struct Record {
     subfunctiontitle: String,
     beacat: String,
     onoffbudget: String,
-    y1976: i64,	
+ /*   y1976: i64,	
     tq: i64,
     y1977: i64,
     y1978: i64,
@@ -61,7 +62,7 @@ struct Record {
     y2011: i64,
     y2012: i64,
     y2013: i64,
-    y2014: i64,
+    y2014: i64,*/
     y2015: i64,
     y2016: i64,
     y2017: i64,
@@ -75,11 +76,16 @@ struct Record {
     idx: Option<i16>
 }
 
-pub fn raw2acct(raw: JsValue) -> Vec<Acct> {
+pub fn raw2acct(raw: JsValue, filt: JsValue) -> Vec<Acct> {
     let z: Vec<Record> = raw.into_serde().unwrap();         // serde_json::from_value(raw).unwrap();
-    let mut n: Vec<Acct> = Vec::new(); 
-    for (i,t) in z.iter().enumerate() {
-        let l = newleaf(t,i as i32);
+    let mut n: Vec<Acct> = Vec::new();
+    let mut cnt = 0;
+    for t in z.iter() {
+        if t.beacat != "D" || t.onoffbudget != "On-budget" || t.y2019 < 1 {
+            continue;
+        }
+        let l = newleaf(t,cnt as i32);
+        cnt = cnt + 1;
         //println!("{:?}", l);
         n.push(l);
     }
@@ -88,13 +94,14 @@ pub fn raw2acct(raw: JsValue) -> Vec<Acct> {
 
 fn newleaf(rec: &Record, idx:i32) -> Acct {
     let val: Vec<i64> = vec![
-rec.y1976, rec.tq, rec.y1977, rec.y1978, rec.y1979, rec.y1980, rec.y1981,
+/*rec.y1976, rec.tq, rec.y1977, rec.y1978, rec.y1979, rec.y1980, rec.y1981,
 rec.y1982, rec.y1983, rec.y1984, rec.y1985, rec.y1986, rec.y1987,
 rec.y1988, rec.y1989, rec.y1990, rec.y1991, rec.y1992, rec.y1993,
 rec.y1994, rec.y1995, rec.y1996, rec.y1997, rec.y1998, rec.y1999,
 rec.y2000, rec.y2001, rec.y2002, rec.y2003, rec.y2004, rec.y2005,
 rec.y2006, rec.y2007, rec.y2008, rec.y2009, rec.y2010, rec.y2011,
-rec.y2012, rec.y2013, rec.y2014, rec.y2015, rec.y2016, rec.y2017,
+rec.y2012, rec.y2013, rec.y2014,*/
+rec.y2015, rec.y2016, rec.y2017,
 rec.y2018, rec.y2019, rec.y2020, rec.y2021, rec.y2022, rec.y2023,
 rec.y2024
     ];
@@ -152,9 +159,9 @@ pub fn rtn_budget(data: String) -> Budget {
     let mut reader = csv::ReaderBuilder::new().has_headers(true).from_reader(d.as_bytes());
  
  //   let reader = ReaderBuilder::new().has_headers(true).from_path(path).unwrap();
-    let mut anames: Vec<LKV> = Vec::new();
-    let mut bnames: Vec<LKV> = Vec::new();
-    let mut snames: Vec<LKV> = Vec::new();
+    //let mut anames: Vec<LKV> = Vec::new();
+    //let mut bnames: Vec<LKV> = Vec::new();
+    //let mut snames: Vec<LKV> = Vec::new();
     let mut accts: Vec<Acct> = Vec::new();
     
     //println!("{:?}", hdr.len());
@@ -173,9 +180,10 @@ pub fn rtn_budget(data: String) -> Budget {
         accts.push(acct);
     }
     let zot = reader.is_done();
-
+    //let tmp = accts.filter
     cnt = accts.len() as i16;
-   println!("{:?}", accts);
+    println!("{:?}", accts);
+    console::log_1(&JsValue::from_f64(cnt as f64));  // &"Test".into());
     let budget = Budget { /*anames: anames, bnames: bnames, sname: snames,*/ accts: accts};
     //Ok(budget)
     //budget

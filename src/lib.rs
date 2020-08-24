@@ -64,11 +64,11 @@ pub struct AcctsPtr {
 }
 
 #[wasm_bindgen]
-pub fn raw2accts(raw: JsValue) -> Result<JsValue, JsValue> {
+pub fn raw2accts(raw: JsValue, filt: JsValue) -> Result<JsValue, JsValue> {
     //let 
     //console::log_1(&raw);  // &"Test".into());
-    let accts = budget::rdcsv::raw2acct(raw);
-
+    let accts = budget::rdcsv::raw2acct(raw, filt);
+    
     let j = JsValue::from_serde(&accts).unwrap();
     // Ok(AcctsPtr {accts: accts})
     Ok(j)

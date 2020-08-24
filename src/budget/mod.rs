@@ -5,6 +5,7 @@ use serde_json::{Value};
 
 pub mod rdcsv;
 pub mod nodedata;
+pub mod template;
 
 pub use rdcsv::{rtn_budget};
 pub use nodedata::*; //{Acct, Budget, BEACat, Node, rtn_tree, Year, Filter, print_tree, add_tree, chg_node, BKey, LKV };
@@ -160,11 +161,12 @@ pub fn get_tree(accts: Vec<Acct>) -> Vec<Node> {
 
     let f = Filter::new();
     let mut tre = rtn_tree(accts, &f).unwrap();
-    let ftree = add_tree(&mut tre);
+    //let ftree = add_tree(&mut tre);
     //let jstre: Vec<JsNode> = tre.iter().map(|n| {JsNode::from_node(n)}).collect();
     //let len = tre.len();  
     tre
 }
+
 
 
 pub async fn fetch_csv(url: String) -> Budget {
@@ -199,6 +201,45 @@ pub async fn fetch_csv(url: String) -> Budget {
     bdgt
 }
 
+#[wasm_bindgen]
+pub async fn load_template(url: String) -> Result<JsValue, JsValue> {
+    //let path = Path::new(&pth);
+
+    let mut opts = RequestInit::new();
+    opts.method("GET");
+    opts.mode(RequestMode::Cors);
+
+    let request = Request::new_with_str_and_init(
+        &url,
+        &opts,
+    )?;
+
+    request
+        .headers()
+        .set("Accept", "text/csv")?;
+
+    let window = web_sys::window().unwrap();
+    let resp_value = JsFuture::from(window.fetch_with_request(&request)).await?;
+
+    // `resp_value` is a `Response` object.
+    assert!(resp_value.is_instance_of::<Response>());
+    let resp: Response = resp_value.dyn_into().unwrap();
+    let data = JsFuture::from(resp.text()?).await?;
+
+
+
+    let ary = JsValue::from(data);
+    console::log_1(&ary);  // &"Test".into());
+    
+    let data: String = ary.as_string().unwrap();
+    console::log_1(&JsValue::from_f64((data.len() as f64)));  // &"Test".into());
+
+    //let bdgt = rtn_budget(data);
+    
+    //let jsbdgt = JsBudget::new_from(&bdgt);
+    //Ok(JsValue::from_serde(&jsbdgt).unwrap())
+    Ok(JsValue::null())
+}
 
 
 #[wasm_bindgen]

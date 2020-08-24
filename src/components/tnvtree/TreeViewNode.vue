@@ -2,7 +2,8 @@
   <div class="tree-view-node">
     <div class="tnv-node">
         <div class="tnv-line" @click="selClick">
-          <span class="tnv-amount"> {{ nodeval(node) }}</span>
+          <span class="tnv-amount"> {{ nodeval() }}</span>
+          <span>{{ percent() }} </span> 
           <span class="tnv-name"> {{ name }} </span>
           <span class="tnv-idx"> {{ node.idx }} </span>
         </div>
@@ -34,7 +35,8 @@ export default {
       default: 0
     },
     gSel: Number,
-    gExp: Number
+    gExp: Number,
+    sum: Number
   },
 
   data () {
@@ -43,31 +45,30 @@ export default {
       total: 0,
       locked: false,
       change: false,
-      value: 0,
       default: 0,
-      children: []
+      children: [],
+      value: 0,
+
     }
   },
 
   created () {
-    //console.log(this.nodeIdx, this.$root.tree)
     let node = this.getNode(this.nodeIdx)
+    //console.log('TVNc',this.sum, this.nodeIdx, node)
     //let node = Object.assign({}, this.$root.tree[this.nodeIdx])
     node['select'] = false
     node['expand'] = false
     node['hover'] = false
     this.default = 0
     this.value = 0
-    this.self = this
     if (node.leaf != -1) {
       let leaf = this.$root.accts[node.leaf]
       let val = leaf.value[43]/1000
       //console.log(val, leaf)
       this.default = val
       this.value = val
-    } else {
-      this.value = 0
-    }
+    } 
+    //node['default'] = this.value
     //node['nodeval'] = this.nodeval
     node['self'] = this
     this.node = node
@@ -78,10 +79,11 @@ export default {
     //this.node['showVal'] = this.showVal
     //this.total = this.node.total
     //this.children = this.node.chld
-    //console.log(this.node)
+    //console.log('TVNcr',this)
   },
 
   mounted () {
+  
     this.change = true
   },
   updated () {
@@ -94,7 +96,10 @@ export default {
       'setHover',
       'setExpand'
     ]),
-    nodeval (node) {
+    percent () {
+      return  (100 * this.nodeval() / this.sum).toFixed(4)
+    },
+    nodeval () {
       //console.log(node)
       //let node = this.node
       let sum = 0
@@ -106,7 +111,7 @@ export default {
       //    sum += c.val
       //  }
       //} else {
-        sum = node.val
+        sum = this.node.val
         //console.log('NVN', node.idx,  sum)
       //}
       return sum

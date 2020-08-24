@@ -160,18 +160,35 @@ export default {
           .then(response => {
             //console.log(response)
             let rslt = response.data
+            let filt = { year: 'y2019'}
             wasm.greet("I TEST")
             rslt.sort(self.nodeSort)
-            let accts = wasm.raw2accts(rslt)
+            let accts = wasm.raw2accts(rslt, filt)
             console.log(accts)
-            let tree = wasm.gen_tree(accts)
+            let tarry = []
+            for (let idx in accts) {
+              let act = accts[idx]
+              if ( act.bea == 'D' && act.onoff == true && act.value[4] > 0) {
+                tarry.push( act )
+              }
+            }
+            console.log(tarry.length, tarry)
             self.$root.accts = Object.assign({}, accts)
+            let tree = wasm.gen_tree(accts)
+            //let k = Object.keys(tree)
+            //for (let v of k) {
+            //  let itm = tree[v]
+              //console.log(itm)
+              //if ( itm.key.acode < 0 || itm.key.bcode < 0 || itm.key.ccode < 0 ) { console.log() }
+              //if ( itm.val == 0 ) continue
+              //if ( itm)
+            //}
             tree = Object.assign({}, tree)
             //self.$root
             //self.$root.tree = tree
             this.$store.commit('LoadNodes', tree)
             this.$store.commit('loaded', true)
-            console.log('GD',tree)             
+            //console.log('GD',tree)             
           })
           .catch(error => {
             console.log(error)

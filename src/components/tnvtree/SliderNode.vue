@@ -45,21 +45,21 @@ export default {
   },
 
   created () {
-    //this.defaultVal = this.node.default
-    //this.value = this.node.value
-    //this.min = this.defaultVal * 0.7
-    //this.max = this.defaultVal * 1.3
+    this.defaultVal = this.node.default/1000
+    this.value = this.node.val/1000
+    this.min = this.defaultVal * 0.5
+    this.max = this.defaultVal * 1.5
     console.log("SLD", this.node)
   },
 
   updated () {
-    this.value = this.node.value
+    this.value = this.node.val
   },
 
   methods: {
     resetVal () {
-      this.value = this.node.default
-      this.node.setValue(-1)
+      this.value = this.node.default/1000
+      //this.node.setValue(-1)
     },
 
     onChg (evt) {
@@ -67,12 +67,12 @@ export default {
       evt.stopImmediatePropagation()
       this.value = evt.target.value
       console.log('inp', evt.target.value)
-      this.node.chgValue(evt.target.value)
+      //this.node.chgValue(evt.target.value)
     },
 
     zeroVal () {
       this.value = '0'
-      this.node.setValue(0)
+      //this.node.setValue(0)
     },
 
     onWheel (evt) {
@@ -81,7 +81,7 @@ export default {
       let step = (evt.deltaY > 0) ? range : -range
       this.value = step + this.value
       console.log(mode, step)
-      this.node.chgValue(this.value)
+      //this.node.chgValue(this.value)
     }
   },
 
