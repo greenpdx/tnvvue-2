@@ -1,7 +1,7 @@
 const path = require("path");
 const dist = path.resolve(__dirname, "dist");
 
-const CopyPlugin = require("copy-webpack-plugin");
+//const CopyPlugin = require("copy-webpack-plugin");
 const WasmPackPlugin = require("@wasm-tool/wasm-pack-plugin");
 
 
@@ -25,9 +25,9 @@ module.exports = {
                     crateDirectory: __dirname,
                     //extraArgs: "--out-name index"
                 }]);
-        config
-            .plugin('copy')
-            .use(CopyPlugin, [[path.resolve(__dirname, "public")]]);
+        //config
+        //    .plugin('copy')
+        //    .use(CopyPlugin, [[path.resolve(__dirname, "public")]]);
         //config
         //    .plugin('workspace')
         
