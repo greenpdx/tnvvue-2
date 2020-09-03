@@ -1,12 +1,12 @@
 <template>
   <div class="tnvvote">
-  <div>
-    <span>Change your Tax Dollar </span>
-    <button @click="btnLoad('l')">Load</button>
-    <input type="text" v-model="in0"/>
-    <button @click="btnSave('s')">Save</button>
-  </div>
-    <!-- TEST -->
+    <div>
+      <span>Change your Tax Dollar </span>
+      <button @click="btnLoad('l')">Load</button>
+      <input type="text" v-model="in0"/>
+      <button @click="btnSave('s')">Save</button>
+    </div>
+   <!-- TEST -->
     <!-- div>
       <div v-for="(acct, idx) in tst" :key="idx">
         {{ acct.agencyname }} {{  acct.bureauname }} {{ acct.accountname }}
@@ -68,23 +68,39 @@
         <button @click="onClick">Test</button>
       </div>
     </div -->
-    <div class="tnv-tree">
-      <tree-view v-if="isLoaded">
-      </tree-view>
+    <div>
+      <div id="querybox">
+        <span>Compare Accounts</span>
+      </div>
+      <div class="tnv-tree">
+        <tree-view v-if="isLoaded">
+        </tree-view>
+      </div>
     </div>
-  </div>
+    <div class="render-area">
+          <!--span class="wait">{{ waitmsg }}</span><br>
+          <span style="font-size: 2em;"> {{ showWhat }} </span -->
+      <tnv-3d v-if="top"
+          :top="top"
+          :size="threeSize"
+          :camPos="camPos"
+          :freeze="freeze"
+          id="tnv3d">
+      </tnv-3d>
+    </div>
+   </div>
 
 <!-- /div -->
 </template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-// import * as THREE from 'three'
+import * as THREE from 'three'
 import Rpc from './Rpc'
 import axios from 'axios'
 import Node from '@/lib/Node'
 
-//import Tnv3D from './tnv3d/Tnv3D'
+import Tnv3D from './tnv3d/Tnv3D'
 import TreeView from './tnvtree/TreeView'
 
 export default {
@@ -93,7 +109,7 @@ export default {
     Rpc
   ],
   components: {
-    //'tnv3d': Tnv3D,
+    'tnv3d': Tnv3D,
     'tree-view': TreeView
   },
 
@@ -447,6 +463,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+#querybox {
+  width: 35%;
+  height: 30em;
+  display: inline-block;
+  float: left;
+  left: 0;
+  top: 0;
+  border: 0.1em solid #000;
+}
 .tnvvote {
   display: inline-block;
 }
@@ -469,10 +494,11 @@ export default {
 }
 
 .render-area {
-  display: inline-block;
+  display: block;
   position: relative;
-  height: 800px;
-  width: 800px
+  height: 100px;
+  width: 100px;
+  border: 3px solid #000;
 }
 .infopop {
   border: 2 solid black;

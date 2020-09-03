@@ -1,7 +1,7 @@
 <template>
   <div class="tree-view-node">
     <div class="tnv-node">
-        <div class="tnv-line" @click="selClick">
+        <div class="tnv-line" @click="selClick" @contextmenu.prevent="selClick">
           <span class="tnv-amount"> {{ nodeval() }}</span>
           <span>{{ percent() }} </span> 
           <span class="tnv-name"> {{ name }} </span>
@@ -128,7 +128,9 @@ export default {
         return this.value
       return sum
     },*/
-    selClick () {
+    selClick (evt) {
+      console.log(evt)
+    /*  show slider
       console.log(tmpvar)
       if (this.gSel >= 0) {
         console.log('SELBSY')
@@ -144,7 +146,7 @@ export default {
         //this.setSelect(node)
       }
       this.$forceUpdate()
-      console.log("SEL",this.selected, this.node.select)
+      console.log("SEL",this.selected, this.node.select) */
     },
   },
 
