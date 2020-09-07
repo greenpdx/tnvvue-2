@@ -300,7 +300,7 @@ pub fn rtn_tree(accts: Vec<Acct>,filter: &Filter) -> Result<Vec<Node>, Box<dyn E
             lidx = bidx + 1;
             
             anode = Node::new(aidx, act.astr.clone(), BKey::new(act.key.acode, -1, -1 ));
-            bnode = Node::new(bidx, act.bstr.clone(), act.key);
+            bnode = Node::new(bidx, act.bstr.clone(), BKey::new(act.key.acode, act.key.bcode, -1));
             leaf = mkleaf(lidx, &act, Year::Y2020 as usize);
 
             anode.parnt = 0;
@@ -321,7 +321,7 @@ pub fn rtn_tree(accts: Vec<Acct>,filter: &Filter) -> Result<Vec<Node>, Box<dyn E
             lidx = bidx+1;
 
             vecnode[aidx as usize].chld.push(bidx);
-            bnode = Node::new(bidx, act.bstr.clone(), act.key);
+            bnode = Node::new(bidx, act.bstr.clone(), BKey::new(act.key.acode, act.key.bcode, -1));
             //leaf = mkleaf(lidx, &act);
  
             bnode.parnt = aidx;

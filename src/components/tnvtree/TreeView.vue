@@ -105,7 +105,8 @@ export default {
       gExp: -1,
       dbgcnt: 4,
       sum: 0,
-      once: true
+      once: true,
+      top: null
     }
   },
 
@@ -125,6 +126,7 @@ export default {
     let node = this.getNode(0)
     let ss = node.chld.map(i => this.getNode(i))
     let sum = 0
+    this.top = node
     for (let a of ss) {
       let asum = 0
       let bb = a.chld.map(i => this.getNode(i))
@@ -152,7 +154,6 @@ export default {
     console.log('SUM', sum)
         //this.sum = sum
     node.chld = ss.sort((a,b)=>{ return b.val - a.val})
-
     //console.log("TV",this.getNode(0).chld)
     //this.nodes = this.top.children
     //this.total = this.top.total
@@ -162,6 +163,15 @@ export default {
   },
 
   methods: {
+    colapse (base) {
+      let chld = this.top.chld
+      for (let node of chld) {
+        node.expand = false
+        for (let chd of node.chld ) {
+          chd.expand = false
+        }
+      }
+    },
     sortVals (a, b, zot) {
       let node = this.getNode(0)
       let sum = 0
@@ -186,6 +196,7 @@ export default {
     btnClk () {
       console.log('BTNCLK')
       let zot = this.nodes[3]
+      this.colapse(this.top)
     },
 
     nodeSel (idx, val) {

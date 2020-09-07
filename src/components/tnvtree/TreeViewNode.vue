@@ -1,12 +1,14 @@
 <template>
   <div class="tree-view-node">
     <div class="tnv-node">
-        <div class="tnv-line" @click="selClick" @contextmenu.prevent="selClick">
+      <drag @dragstart="ds" @dragend="ds" :data="node">
+        <div class="tnv-line" @click="selClick($event, node.idx)" @contextmenu.prevent="selClick($event, node.idx)">
           <span class="tnv-amount"> {{ nodeval() }}</span>
           <span>{{ percent() }} </span> 
           <span class="tnv-name"> {{ name }} </span>
-          <span class="tnv-idx"> {{ node.idx }} </span>
+          <span class="tnv-idx"> {{ prtkey() }} </span>
         </div>
+        </drag>
         <slider-node
           v-if="node.select"
           :node="node"></slider-node>
@@ -17,6 +19,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex'
 import Node from '@/lib/Node'
+import { Drag, Drop, DropMask } from "vue-easy-dnd"
 
 import SliderNode from './SliderNode'
 
@@ -26,7 +29,8 @@ export default {
   name: 'TreeViewNode',
 
   components: {
-    SliderNode
+    SliderNode,
+    Drag
   },
 
   props: {
@@ -96,8 +100,26 @@ export default {
       'setHover',
       'setExpand'
     ]),
+    ds (evt) {
+      //evt.data = this.node
+      //evt.type = "text"
+      console.log('DS', this.nodeIdx, evt)
+    },
     percent () {
       return  (100 * this.nodeval() / this.sum).toFixed(4)
+    },
+    prtkey () {
+      let node = this.node
+      let key = node.key
+      let str = ""
+      if (key.ccode != -1) {
+        str = ',' + key.ccode.toString()
+      }
+      if (key.bcode != -1) {
+        str = ',' + key.bcode.toString() + str
+      }
+      str = key.acode.toString() + str
+      return str
     },
     nodeval () {
       //console.log(node)
@@ -128,8 +150,12 @@ export default {
         return this.value
       return sum
     },*/
-    selClick (evt) {
-      console.log(evt)
+    selClick (evt, idx) {
+      console.log(idx, evt, this.node.key)
+      let node = this.node
+
+
+
     /*  show slider
       console.log(tmpvar)
       if (this.gSel >= 0) {
@@ -269,7 +295,7 @@ export default {
 }
 .tnv-idx {
   width: 2em;
-  opacity: 30%;
+  opacity: 60%;
   color: #444;
 }
 

@@ -69,9 +69,18 @@
       </div>
     </div -->
     <div>
-      <div id="querybox">
-        <span>Compare Accounts</span>
-      </div>
+      <drop 
+        @dragenter="de"
+        @dragleave="de"
+        @dragover="de"
+        @drop="drp">
+        <div id="querybox">
+          <span>Compare Accounts</span>
+          <div v-for="node in cmpnodes" :key="node.idx">
+            {{ node.val }} {{ node.name }}
+          </div>
+        </div>
+        </drop>
       <div class="tnv-tree">
         <tree-view v-if="isLoaded">
         </tree-view>
@@ -99,6 +108,8 @@ import * as THREE from 'three'
 import Rpc from './Rpc'
 import axios from 'axios'
 import Node from '@/lib/Node'
+//import Drop from "../../lib/src/components/Drop.vue";
+import { Drag, Drop, DropMask } from "vue-easy-dnd"
 
 import Tnv3D from './tnv3d/Tnv3D'
 import TreeView from './tnvtree/TreeView'
@@ -106,7 +117,8 @@ import TreeView from './tnvtree/TreeView'
 export default {
   name: 'TnvVote',
   mixins: [
-    Rpc
+    Rpc,
+    Drop
   ],
   components: {
     'tnv3d': Tnv3D,
@@ -115,6 +127,7 @@ export default {
 
   data () {
     return {
+      cmpnodes: [],
       in0: 0,
       objInfo: '',
       waitmsg: "Under construction",
@@ -231,6 +244,14 @@ export default {
       'setExpand',
       'noWebgl'
     ]),
+    de (evt) {
+      console.log('de',evt)
+    },
+    drp (evt) {
+      let node = evt.data
+      this.cmpnodes.push(node)
+      console.log('drp',node.name)
+    },
     async btnLoad (ls) {
       console.log('LOAD')
       let wasm = this.$wasm
@@ -464,13 +485,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 #querybox {
-  width: 35%;
+  width: 40%;
   height: 30em;
-  display: inline-block;
+  display: block;
   float: left;
   left: 0;
   top: 0;
   border: 0.1em solid #000;
+  text-align: left;
 }
 .tnvvote {
   display: inline-block;
